@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import portrait from '../../assets/portrait.jpg'
 import {
   NAV_LINKS,
   certifications,
@@ -50,6 +51,13 @@ export function Overlay() {
               <br />
               how to defend them.
             </h2>
+            <figure className="portrait" data-reveal>
+              <img src={portrait} alt={`Portrait of ${profile.name}`} loading="lazy" />
+              <figcaption className="portrait-caption">
+                <span className="portrait-name">{profile.name}</span>
+                <span className="portrait-role">{profile.role}</span>
+              </figcaption>
+            </figure>
           </div>
           <div>
             <p className="body-text" data-reveal>
