@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Cybersecurity &amp; CS Portfolio</title>
+  <meta name="description" content="Computer Science student specializing in cybersecurity, network analysis, and applied machine learning." />
+
+  <!-- Two cuts of the same type family: Mono for data/labels, Sans for prose -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============================================
+       MOBILE TOP BAR — visible only on small screens
+       ============================================ -->
+  <header class="mobile-bar">
+    <span class="mobile-bar__logo">~/portfolio</span>
+    <button class="mobile-bar__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="layout">
+
+    <!-- ============================================
+         SIDEBAR — styled as a code editor file tree
+         ============================================ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <span class="sidebar__dot" aria-hidden="true"></span>
+        <span>~/portfolio</span>
+      </div>
+
+      <nav class="filetree" aria-label="Primary">
+        <p class="filetree__path">// jump to section</p>
+        <a href="#hero" class="filetree__item" data-nav>
+          <span class="filetree__icon">◆</span> hero.tsx
+        </a>
+        <a href="#about" class="filetree__item" data-nav>
+          <span class="filetree__icon">◆</span> about.md
+        </a>
+        <a href="#skills" class="filetree__item" data-nav>
+          <span class="filetree__icon">◆</span> skills.json
+        </a>
+        <a href="#projects" class="filetree__item" data-nav>
+          <span class="filetree__icon">▸</span> projects/
+        </a>
+        <a href="#contact" class="filetree__item" data-nav>
+          <span class="filetree__icon">◆</span> contact.sh
+        </a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <div class="status-line">
+          <span class="status-line__dot" aria-hidden="true"></span>
+          open to opportunities
+        </div>
+        <div class="sidebar__socials">
+          <!-- TODO: replace # with your real profile URLs -->
+          <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GH</a>
+          <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LI</a>
+          <a href="mailto:your.email@example.com" aria-label="Email">@</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============================================
+         MAIN CONTENT
+         ============================================ -->
+    <main class="content">
+
+      <!-- ============ HERO ============ -->
+      <section id="hero" class="section hero">
+        <div class="terminal" role="img" aria-label="Terminal window animation introducing the site owner">
+          <div class="terminal__titlebar">
+            <span class="terminal__btn terminal__btn--red"></span>
+            <span class="terminal__btn terminal__btn--yellow"></span>
+            <span class="terminal__btn terminal__btn--green"></span>
+            <span class="terminal__title">guest@secops: ~</span>
+          </div>
+          <div class="terminal__body" id="terminalBody">
+            <!-- Populated line-by-line by script.js's typing effect -->
+          </div>
+        </div>
+
+        <div class="hero__actions">
+          <a href="#projects" class="btn btn--primary">View projects</a>
+          <!-- TODO: replace with a real link to your resume PDF -->
+          <a href="resume.pdf" class="btn btn--ghost" download>Download résumé</a>
+        </div>
+      </section>
+
+      <!-- ============ ABOUT ============ -->
+      <section id="about" class="section">
+        <p class="section__label">// about</p>
+        <div class="about-grid">
+          <div class="about-grid__prose">
+            <h2 class="section__heading">Breaking things to understand how to defend them.</h2>
+            <p>
+              I'm a Computer Science student focused on cybersecurity — the intersection of
+              network behavior, adversarial thinking, and the tooling needed to make sense of both.
+              Most of my work sits at the boundary between raw packet data and the models that try
+              to explain it: writing analyzers in Go, prototyping detection logic in Python, and
+              testing how far machine learning can go in strengthening — or breaking — cryptographic
+              systems.
+            </p>
+            <p>
+              Outside of security-specific work, I build interactive web tools when a problem
+              is better explained with an interface than a report.
+            </p>
+          </div>
+
+          <div class="about-grid__panel">
+            <p class="panel__title">system.status</p>
+            <dl class="stat-list">
+              <div class="stat-list__row">
+                <dt>role</dt>
+                <dd>CS student — Cybersecurity focus</dd>
+              </div>
+              <div class="stat-list__row">
+                <dt>core_stack</dt>
+                <dd>Python · Go</dd>
+              </div>
+              <div class="stat-list__row">
+                <dt>specialty</dt>
+                <dd>Network analysis, ML for security</dd>
+              </div>
+              <div class="stat-list__row">
+                <dt>status</dt>
+                <dd><span class="status-line__dot status-list__dot" aria-hidden="true"></span>available for internships</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SKILLS ============ -->
+      <section id="skills" class="section">
+        <p class="section__label">// skills</p>
+        <h2 class="section__heading">Technical skills</h2>
+
+        <div class="skills-grid">
+
+          <div class="skill-group">
+            <h3 class="skill-group__title">Languages</h3>
+            <ul class="skill-list">
+              <li class="skill-item" data-level="90">
+                <div class="skill-item__row"><span>Python</span><span class="skill-item__pct">90%</span></div>
+                <div class="skill-bar"><div class="skill-bar__fill"></div></div>
+              </li>
+              <li class="skill-item" data-level="80">
+                <div class="skill-item__row"><span>Go</span><span class="skill-item__pct">80%</span></div>
+                <div class="skill-bar"><div class="skill-bar__fill"></div></div>
+              </li>
+              <li class="skill-item" data-level="70">
+                <div class="skill-item__row"><span>JavaScript</span><span class="skill-item__pct">70%</span></div>
+                <div class="skill-bar"><div class="skill-bar__fill"></div></div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3 class="skill-group__title">Security &amp; network analysis</h3>
+            <ul class="skill-list">
+              <li class="skill-item" data-level="85">
+                <div class="skill-item__row"><span>Wireshark</span><span class="skill-item__pct">85%</span></div>
+                <div class="skill-bar"><div class="skill-bar__fill"></div></div>
+              </li>
+              <li class="skill-item" data-level="80">
+                <div class="skill-item__row"><span>Packet / protocol analysis</span><span class="skill-item__pct">80%</span></div>
+                <div class="skill-bar"><div class="skill-bar__fill"></div></div>
+              </li>
+              <li class="skill-item" data-level="65">
+                <div class="skill-item__row"><span>Nmap &amp; recon tooling</span><span class="skill-item__pct">65%</span></div>
+                <div class="skill-bar"><div class="skill-bar__fill"></div></div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3 class="skill-group__title">Machine learning</h3>
+            <ul class="skill-list">
+              <li class="skill-item" data-level="75">
+                <div class="skill-item__row"><span>ML for security / anomaly detection</span><span class="skill-item__pct">75%</span></div>
+                <div class="skill-bar"><div class="skill-bar__fill"></div></div>
+              </li>
+              <li class="skill-item" data-level="70">
+                <div class="skill-item__row"><span>scikit-learn</span><span class="skill-item__pct">70%</span></div>
+                <div class="skill-bar"><div class="skill-bar__fill"></div></div>
+              </li>
+              <li class="skill-item" data-level="60">
+                <div class="skill-item__row"><span>PyTorch / TensorFlow</span><span class="skill-item__pct">60%</span></div>
+                <div class="skill-bar"><div class="skill-bar__fill"></div></div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============ PROJECTS ============ -->
+      <section id="projects" class="section">
+        <p class="section__label">// projects</p>
+        <h2 class="section__heading">Featured projects</h2>
+
+        <div class="project-list">
+
+          <!-- Project 1 -->
+          <article class="project-entry">
+            <button class="project-entry__header" data-toggle aria-expanded="false">
+              <div>
+                <p class="project-entry__meta">go · libpcap · cli &nbsp;—&nbsp; status: active</p>
+                <h3 class="project-entry__title">Network Sniffer &amp; Traffic Analyzer</h3>
+              </div>
+              <span class="project-entry__chevron" aria-hidden="true">+</span>
+            </button>
+            <div class="project-entry__body">
+              <p>
+                A lightweight, command-line packet sniffer written in Go. Captures live traffic,
+                parses protocol headers (TCP/UDP/ICMP), and flags anomalous patterns such as port
+                scans and unusual packet frequency — built to understand traffic at the level
+                Wireshark visualizes, but from the inside.
+              </p>
+              <ul class="project-entry__tags">
+                <li>Go</li><li>gopacket</li><li>Networking</li><li>CLI</li>
+              </ul>
+              <div class="project-entry__links">
+                <!-- TODO: replace with your real repository link -->
+                <a href="https://github.com/yourusername/network-sniffer" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="project-entry">
+            <button class="project-entry__header" data-toggle aria-expanded="false">
+              <div>
+                <p class="project-entry__meta">python · pytorch · crypto &nbsp;—&nbsp; status: research</p>
+                <h3 class="project-entry__title">ML-Driven Cryptographic System</h3>
+              </div>
+              <span class="project-entry__chevron" aria-hidden="true">+</span>
+            </button>
+            <div class="project-entry__body">
+              <p>
+                An experimental system exploring how neural networks can assist in generating and
+                evaluating cryptographic parameters, and how the same techniques can be used to
+                probe encryption schemes for weaknesses. Includes a simple benchmark suite for
+                comparing strength against classical statistical attacks.
+              </p>
+              <ul class="project-entry__tags">
+                <li>Python</li><li>PyTorch</li><li>Cryptography</li><li>Research</li>
+              </ul>
+              <div class="project-entry__links">
+                <!-- TODO: replace with your real repository link -->
+                <a href="https://github.com/yourusername/ml-crypto-system" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="project-entry">
+            <button class="project-entry__header" data-toggle aria-expanded="false">
+              <div>
+                <p class="project-entry__meta">javascript · html/css &nbsp;—&nbsp; status: shipped</p>
+                <h3 class="project-entry__title">Interactive Web Dashboard</h3>
+              </div>
+              <span class="project-entry__chevron" aria-hidden="true">+</span>
+            </button>
+            <div class="project-entry__body">
+              <p>
+                A front-end dashboard for visualizing live data streams — built to practice
+                translating raw, fast-moving data (the same kind produced by network monitoring
+                tools) into something a non-technical reader can interpret at a glance.
+              </p>
+              <ul class="project-entry__tags">
+                <li>JavaScript</li><li>Data Viz</li><li>Responsive UI</li>
+              </ul>
+              <div class="project-entry__links">
+                <!-- TODO: replace with your real repository / live demo links -->
+                <a href="https://github.com/yourusername/web-dashboard" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ============ CONTACT ============ -->
+      <section id="contact" class="section">
+        <p class="section__label">// contact</p>
+        <h2 class="section__heading">Get in touch</h2>
+        <p class="contact-intro">
+          Have a role, a project, or a question about something above? The form runs
+          straight to my inbox.
+        </p>
+
+        <form class="terminal-form" id="contactForm" novalidate>
+          <div class="terminal-form__row">
+            <label for="name">$ name</label>
+            <input type="text" id="name" name="name" required autocomplete="name" />
+          </div>
+          <div class="terminal-form__row">
+            <label for="email">$ email</label>
+            <input type="email" id="email" name="email" required autocomplete="email" />
+          </div>
+          <div class="terminal-form__row">
+            <label for="message">$ message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary">Send message</button>
+          <p class="terminal-form__status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <p>&copy; <span id="year"></span> Your Name. Built with HTML, CSS &amp; JavaScript.</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
