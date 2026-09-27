@@ -789,7 +789,10 @@ a {
 }
 
 @media (max-width: 720px) {
-  .nav-links,
+  .nav-links {
+    display: none;
+  }
+
   .section-work--right,
   .section-work--left,
   .section-contact {

@@ -180,8 +180,8 @@ export function Overlay() {
                 {link.label}
               </button>
             ))}
-            <a href="/privacy.html">Privacy</a>
-            <a href="/terms.html">Terms</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
           </span>
           <span>React · Three.js · GSAP</span>
         </footer>
