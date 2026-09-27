@@ -1,8 +1,8 @@
-# SECOPS.PORTFOLIO — Immersive 3D Portfolio
+# SECOPS.PORTFOLIO: Immersive 3D Portfolio
 
 A scroll-driven WebGL journey: the whole page is one continuous Three.js scene.
 As you scroll, the camera flies through a dark sci-fi data corridor, docking at
-each portfolio section — hero core → identity → case files → protocol ring →
+each portfolio section: hero core → identity → case files → protocol ring →
 uplink beacon.
 
 Built with **React 19 + TypeScript + Vite**, **Three.js** (via React Three
@@ -24,7 +24,7 @@ also works on mobile (touch scroll, capped device pixel ratio).
 ## Make it yours
 
 **All content lives in one file: [`src/data/portfolio.ts`](src/data/portfolio.ts).**
-Name, role, stats, the three case files, skills, socials, email — edit there and
+Name, role, stats, the three case files, skills, socials and email all live there. Edit there and
 the DOM overlay *and* the 3D scene (slab titles/accents, protocol ring labels)
 update together. Fields marked `⚠️ PLACEHOLDER` still need your real identity.
 
@@ -49,7 +49,7 @@ Other useful files:
 
 ## Deploy
 
-`npm run build` produces a static `dist/` folder — host it anywhere
+`npm run build` produces a static `dist/` folder; host it anywhere
 (Netlify, Vercel, GitHub Pages, nginx). No backend needed.
 
 ## Note

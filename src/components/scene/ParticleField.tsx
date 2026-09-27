@@ -38,7 +38,7 @@ type Props = {
   speed?: number
 }
 
-/** Soft round GPU points with per-particle twinkle — shared by stars, dust and halos. */
+/** Soft round GPU points with per-particle twinkle, shared by stars, dust and halos. */
 export function ParticleField({ positions, color = '#9fd8ff', size = 1.2, opacity = 0.8, speed = 1 }: Props) {
   const geometry = useMemo(() => {
     const geo = new THREE.BufferGeometry()

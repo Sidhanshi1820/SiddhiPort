@@ -48,7 +48,7 @@ type Props = {
   speed?: number
 }
 
-/** Pulsing fresnel "energy core" — the hero centerpiece and the heart of other structures. */
+/** Pulsing fresnel "energy core": the hero centerpiece and the heart of other structures. */
 export function GlowCore({ radius = 1.2, colorA = '#3b2a8f', colorB = '#67e8f9', speed = 1 }: Props) {
   const mesh = useRef<THREE.Mesh>(null)
 

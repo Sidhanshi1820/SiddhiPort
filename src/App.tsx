@@ -6,9 +6,7 @@ import 'lenis/dist/lenis.css'
 import { Experience } from './components/scene/Experience'
 import { Overlay } from './components/ui/Overlay'
 import { Nav } from './components/ui/Nav'
-import { SectionDots } from './components/ui/SectionDots'
 import { Preloader } from './components/ui/Preloader'
-import { CustomCursor } from './components/ui/CustomCursor'
 import { lenisRef, scrollState } from './lib/scrollState'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -87,11 +85,9 @@ export default function App() {
       <Experience />
       <Overlay />
       <Nav />
-      <SectionDots />
       <div className="vignette" aria-hidden="true" />
       <div className="scanlines" aria-hidden="true" />
       <div className="grain" aria-hidden="true" />
-      <CustomCursor />
       <Preloader onReveal={() => setRevealed(true)} />
     </>
   )

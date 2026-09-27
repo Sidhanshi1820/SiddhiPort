@@ -5,7 +5,7 @@ import { profile } from '../../data/portfolio'
 
 /**
  * Boot curtain: ramps a progress readout to 100% (respecting drei's real asset
- * progress if anything is loading), then plays a reveal sequence — bar seals,
+ * progress if anything is loading), then plays a reveal sequence: bar seals,
  * content lifts, curtain wipes up, and onReveal fires mid-wipe so the hero
  * intro overlaps the lift.
  */

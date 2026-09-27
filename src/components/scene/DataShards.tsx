@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-// Thin luminous streaks flanking the flight path — data streams that sell the
+// Thin luminous streaks flanking the flight path; data streams that sell the
 // sense of speed while the camera travels the corridor.
 export function DataShards() {
   const group = useRef<THREE.Group>(null)

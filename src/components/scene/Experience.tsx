@@ -13,7 +13,7 @@ import { SceneGrid } from './SceneGrid'
 import { Effects } from './Effects'
 
 /**
- * The fixed WebGL stage behind the scrolling DOM. Everything is procedural —
+ * The fixed WebGL stage behind the scrolling DOM. Everything is procedural;
  * no assets to load, so the scene mounts instantly and the preloader is pure
  * theater for the intro reveal.
  */

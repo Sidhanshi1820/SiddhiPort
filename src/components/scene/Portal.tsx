@@ -37,7 +37,7 @@ const discFrag = /* glsl */ `
   }
 `
 
-// Contact station: the uplink beacon — a hot amber gate with a swirling core
+// Contact station: the uplink beacon: a hot amber gate with a swirling core
 // and a light pillar anchored to the grid below.
 export function Portal() {
   const ring = useRef<THREE.Mesh>(null)

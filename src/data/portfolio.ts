@@ -1,5 +1,5 @@
 // ==========================================================================
-// ALL SITE CONTENT LIVES HERE — edit this file to make the portfolio yours.
+// ALL SITE CONTENT LIVES HERE. Edit this file to make the portfolio yours.
 // Source of truth: Sidhanshi Srivastava's resume (updated Sep 2026).
 // ==========================================================================
 
@@ -9,18 +9,18 @@ export const profile = {
   lastName: 'SRIVASTAVA',
   initials: 'SS',
 
-  role: 'B.Tech CSE (Cyber Security) — Security Tooling & Network Analysis',
+  role: 'B.Tech CSE (Cyber Security) · Security Tooling & Network Analysis',
   tagline:
-    'I build end-to-end security tools and automation scripts across networking, OS-level administration, and web application layers — to help protect systems and data from cyber threats.',
+    'I build end-to-end security tools and automation scripts across networking, OS-level administration, and web application layers to help protect systems and data from cyber threats.',
   location: 'Greater Noida, India',
 
   email: 'sidhanshisrivastava00@gmail.com',
   availability:
-    'Seeking a cybersecurity internship — open to SOC work, security research, and ambitious builds.',
+    'Seeking a cybersecurity internship. Open to SOC work, security research, and ambitious builds.',
 
   // "system.status" panel shown in the About section.
   stats: [
-    { label: 'role', value: 'B.Tech CSE — Cyber Security' },
+    { label: 'role', value: 'B.Tech CSE · Cyber Security' },
     { label: 'campus', value: 'NIET, Greater Noida · CGPA 8.4' },
     { label: 'core_stack', value: 'Python · C · JavaScript' },
     { label: 'specialty', value: 'Network analysis · AI for security' },
@@ -47,9 +47,9 @@ export const projects: Project[] = [
   {
     index: '01',
     title: 'FAKE WI-FI DETECTOR',
-    tagline: 'python · local llm · kali linux — status: active',
+    tagline: 'python · local llm · kali linux · status: active',
     description:
-      'A Python-based detection tool that identifies unauthorized access points and deauthentication flood attacks associated with Evil Twin attacks. Live captures from Wireshark and Aircrack-ng feed a locally hosted Qwen-based LLM that reasons over scan output and flags rogue APs in real time — no cloud dependency.',
+      'A Python-based detection tool that identifies unauthorized access points and deauthentication flood attacks associated with Evil Twin attacks. Live captures from Wireshark and Aircrack-ng feed a locally hosted Qwen-based LLM that reasons over scan output and flags rogue APs in real time. No cloud dependency.',
     tech: ['Python', 'Qwen LLM (local)', 'Kali Linux', 'Wireshark', 'Aircrack-ng'],
     accent: '#67e8f9',
     links: {
@@ -60,9 +60,9 @@ export const projects: Project[] = [
   {
     index: '02',
     title: 'CRYPTOGRAPHIC SYSTEM',
-    tagline: 'python · fastapi · pytorch — status: research',
+    tagline: 'python · fastapi · pytorch · status: research',
     description:
-      'System architecture and data pipeline for an automated, AI-driven cryptographic management platform. FastAPI services with Redis + Celery workers, scikit-learn and PyTorch models driving real-time anomaly detection — designed end to end around confidentiality, integrity, and availability.',
+      'System architecture and data pipeline for an automated, AI-driven cryptographic management platform. FastAPI services with Redis + Celery workers, scikit-learn and PyTorch models driving real-time anomaly detection. Designed end to end around confidentiality, integrity, and availability.',
     tech: ['Python', 'FastAPI', 'scikit-learn', 'PyTorch', 'Redis', 'Celery', 'Docker'],
     accent: '#a78bfa',
     links: {
@@ -73,9 +73,9 @@ export const projects: Project[] = [
   {
     index: '03',
     title: 'SECURE EVENT MANAGER',
-    tagline: 'php · mysql · rest apis — status: shipped',
+    tagline: 'php · mysql · rest apis · status: shipped',
     description:
-      'Full system architecture and database flow for a secure event management platform — HTML5/CSS3/JavaScript front end, PHP + MySQL back end exposed through REST APIs and JSON contracts — architected around the confidentiality–integrity–availability triad with hardened data flow between layers.',
+      'Full system architecture and database flow for a secure event management platform: HTML5/CSS3/JavaScript front end, PHP + MySQL back end exposed through REST APIs and JSON contracts. Architected around the confidentiality–integrity–availability triad with hardened data flow between layers.',
     tech: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'MySQL', 'REST APIs'],
     accent: '#f472b6',
     links: {
@@ -94,7 +94,7 @@ export const skillGroups = [
   { title: 'AI & Automation', skills: ['Local LLM Deployment', 'PyTorch', 'LangChain', 'Gemini API', 'Security Automation'] },
 ]
 
-// Short labels for the 3D protocol ring — long skill names don't fit in 3D text.
+// Short labels for the 3D protocol ring (long skill names don't fit in 3D text).
 const RING_SKILLS = [
   'PYTHON',
   'KALI LINUX',
@@ -111,9 +111,9 @@ export function ringSkills(count = 8): string[] {
 }
 
 export const education = {
-  degree: 'B.Tech — Computer Science & Engineering (Cyber Security)',
+  degree: 'B.Tech · Computer Science & Engineering (Cyber Security)',
   school: 'Noida Institute of Engineering and Technology, Greater Noida, UP',
-  period: '2024 — pursuing',
+  period: '2024 · pursuing',
   cgpa: '8.4',
 }
 

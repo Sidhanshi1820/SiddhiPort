@@ -3,18 +3,18 @@
 // The page is 7 sections × 100vh (hero, about, 3× case files, skills, contact).
 // One camera waypoint + one lookAt waypoint per section. Catmull-Rom curves
 // distribute t uniformly per segment, so t = i / 6 lands exactly on waypoint i
-// when section i fills the viewport — the camera "docks" at each station.
+// when section i fills the viewport; the camera "docks" at each station.
 
 export const SECTION_COUNT = 7
 
 export const CAM_POINTS: Array<[number, number, number]> = [
-  [0, 0.35, 8.2], // hero — facing the core
-  [6.5, 1.6, -21], // about — swept right, gliding through the orbit rings
+  [0, 0.35, 8.2], // hero, facing the core
+  [6.5, 1.6, -21], // about, swept right, gliding through the orbit rings
   [2.6, 0.9, -47.5], // case file 01
   [-2.6, 0.9, -63.5], // case file 02
   [2.6, 0.9, -79.5], // case file 03
-  [0, 1.6, -97], // skills — diving toward the protocol ring
-  [0, 0.9, -127], // contact — resting before the uplink beacon
+  [0, 1.6, -97], // skills, diving toward the protocol ring
+  [0, 0.9, -127], // contact, resting before the uplink beacon
 ]
 
 export const LOOK_POINTS: Array<[number, number, number]> = [

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SECOPS.PORTFOLIO — global styles
+   SECOPS.PORTFOLIO: global styles
    Dark sci-fi system: deep space navy, holographic cyan/violet, amber uplink.
    ========================================================================== */
 
@@ -56,14 +56,6 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(103, 232, 249, 0.4);
-}
-
-@media (pointer: fine) {
-  html,
-  a,
-  button {
-    cursor: none;
-  }
 }
 
 button {
@@ -164,10 +156,7 @@ a {
 }
 
 .hero-line-accent {
-  color: transparent;
-  background: linear-gradient(92deg, var(--cyan), var(--violet) 55%, var(--pink));
-  -webkit-background-clip: text;
-  background-clip: text;
+  color: var(--cyan);
 }
 
 .hero-role {
@@ -544,10 +533,7 @@ a {
 }
 
 .contact-title span {
-  color: transparent;
-  background: linear-gradient(92deg, var(--amber), var(--pink));
-  -webkit-background-clip: text;
-  background-clip: text;
+  color: var(--amber);
 }
 
 .contact-sub {
@@ -656,7 +642,7 @@ a {
 }
 
 /* --------------------------------------------------------------------------
-   Nav / dots / preloader / cursor
+   Nav / preloader
    -------------------------------------------------------------------------- */
 
 .nav {
@@ -730,35 +716,6 @@ a {
   font-size: 0.6rem;
 }
 
-.dots {
-  position: fixed;
-  right: clamp(1rem, 2.5vw, 2.2rem);
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 40;
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border: 1px solid rgba(151, 178, 221, 0.4);
-  transform: rotate(45deg);
-  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
-}
-
-.dot:hover {
-  border-color: var(--cyan);
-}
-
-.dot.active {
-  background: var(--cyan);
-  border-color: var(--cyan);
-  box-shadow: 0 0 10px var(--cyan);
-}
-
 .preloader {
   position: fixed;
   inset: 0;
@@ -799,7 +756,7 @@ a {
 
 .pre-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--cyan), var(--violet));
+  background: var(--cyan);
   transform-origin: left;
   transform: scaleX(0);
   box-shadow: 0 0 12px rgba(103, 232, 249, 0.6);
@@ -810,44 +767,6 @@ a {
   font-size: 0.72rem;
   letter-spacing: 0.3em;
   color: var(--muted);
-}
-
-.cursor-dot,
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 90;
-  pointer-events: none;
-  border-radius: 50%;
-}
-
-.cursor-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--cyan);
-  box-shadow: 0 0 10px rgba(103, 232, 249, 0.8);
-}
-
-.cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(103, 232, 249, 0.45);
-  transition: width 0.25s, height 0.25s, border-color 0.25s, background 0.25s;
-}
-
-.cursor-ring.is-hover {
-  width: 56px;
-  height: 56px;
-  border-color: rgba(103, 232, 249, 0.9);
-  background: rgba(103, 232, 249, 0.08);
-}
-
-@media (pointer: coarse) {
-  .cursor-dot,
-  .cursor-ring {
-    display: none;
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -871,10 +790,6 @@ a {
 
 @media (max-width: 720px) {
   .nav-links,
-  .dots {
-    display: none;
-  }
-
   .section-work--right,
   .section-work--left,
   .section-contact {
