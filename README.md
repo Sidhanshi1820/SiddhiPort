@@ -26,7 +26,8 @@ also works on mobile (touch scroll, capped device pixel ratio).
 **All content lives in one file: [`src/data/portfolio.ts`](src/data/portfolio.ts).**
 Name, role, stats, the three case files, skills, socials and email all live there. Edit there and
 the DOM overlay *and* the 3D scene (slab titles/accents, protocol ring labels)
-update together. Fields marked `⚠️ PLACEHOLDER` still need your real identity.
+update together. Project links currently point at the GitHub profile rather than
+individual repositories; swap in real repo URLs as projects go public.
 
 Other useful files:
 
