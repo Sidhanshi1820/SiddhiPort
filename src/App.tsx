@@ -67,11 +67,14 @@ export default function App() {
     }
   }, [])
 
-  // Fired mid-wipe of the preloader curtain: unlock scrolling, dolly the
-  // camera in, and stagger the hero copy.
+  // Fired mid-wipe of the preloader curtain: unlock scrolling, pin the page to
+  // the top (some environments restore a stale scroll position after mount),
+  // dolly the camera in, and stagger the hero copy.
   useEffect(() => {
     if (!revealed) return
     lenisRef.current?.start()
+    window.scrollTo(0, 0)
+    lenisRef.current?.scrollTo(0, { immediate: true })
     gsap.to(scrollState, { intro: 1, duration: 2.4, ease: 'back.out(1.1)' })
     gsap.fromTo(
       '[data-hero]',
