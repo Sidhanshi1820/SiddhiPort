@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
+import { LOW_END } from '../../lib/quality'
 import { CAM_POINTS } from '../../lib/paths'
 import { CameraRig } from './CameraRig'
 import { Stars } from './Stars'
@@ -21,7 +22,7 @@ export function Experience() {
   return (
     <div className="canvas-holder" aria-hidden="true">
       <Canvas
-        dpr={[1, 1.75]}
+        dpr={LOW_END ? 1 : [1, 1.5]}
         camera={{ fov: 55, near: 0.1, far: 320, position: CAM_POINTS[0] }}
         gl={{ antialias: false, powerPreference: 'high-performance', stencil: false }}
       >

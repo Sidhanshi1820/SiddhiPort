@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { GlowCore } from './GlowCore'
 import { ParticleField } from './ParticleField'
+import { LOW_END } from '../../lib/quality'
 import { HERO_OBJECT_POSITION } from '../../lib/paths'
 import { scrollState } from '../../lib/scrollState'
 
@@ -29,7 +30,7 @@ export function HeroObject() {
   const cage = useRef<THREE.Mesh>(null)
   const ringA = useRef<THREE.Mesh>(null)
   const ringB = useRef<THREE.Mesh>(null)
-  const halo = useMemo(() => shell(320, 3.4, 4.6), [])
+  const halo = useMemo(() => shell(LOW_END ? 150 : 320, 3.4, 4.6), [])
 
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime

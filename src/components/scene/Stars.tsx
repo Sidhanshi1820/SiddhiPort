@@ -1,12 +1,17 @@
 import { useMemo } from 'react'
 import { ParticleField } from './ParticleField'
+import { LOW_END } from '../../lib/quality'
 
 // Stars + near-field dust fill the whole journey volume (the camera travels
-// from z=8 to z=-127), so parallax while flying is constant and rich.
+// from z=8 to z=-127), so parallax while flying is constant and rich. Weak
+// GPUs get roughly half the points; the sky reads the same, just calmer.
+const FAR_COUNT = LOW_END ? 900 : 2000
+const DUST_COUNT = LOW_END ? 200 : 420
+
 export function Stars() {
   const far = useMemo(() => {
-    const arr = new Float32Array(2000 * 3)
-    for (let i = 0; i < 2000; i++) {
+    const arr = new Float32Array(FAR_COUNT * 3)
+    for (let i = 0; i < FAR_COUNT; i++) {
       arr[i * 3] = (Math.random() - 0.5) * 180
       arr[i * 3 + 1] = (Math.random() - 0.5) * 90
       arr[i * 3 + 2] = 30 - Math.random() * 200
@@ -15,8 +20,8 @@ export function Stars() {
   }, [])
 
   const dust = useMemo(() => {
-    const arr = new Float32Array(420 * 3)
-    for (let i = 0; i < 420; i++) {
+    const arr = new Float32Array(DUST_COUNT * 3)
+    for (let i = 0; i < DUST_COUNT; i++) {
       arr[i * 3] = (Math.random() - 0.5) * 32
       arr[i * 3 + 1] = (Math.random() - 0.5) * 18
       arr[i * 3 + 2] = 12 - Math.random() * 167
