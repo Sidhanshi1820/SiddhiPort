@@ -1,31 +1,30 @@
 import { useEffect, useRef, useState } from 'react'
-import { useProgress } from '@react-three/drei'
 import gsap from 'gsap'
 import { profile } from '../../data/portfolio'
 
 /**
- * Boot curtain: ramps a progress readout to 100% (respecting drei's real asset
- * progress if anything is loading), then plays a reveal sequence: bar seals,
- * content lifts, curtain wipes up, and onReveal fires mid-wipe so the hero
- * intro overlaps the lift.
+ * Boot curtain: ramps a progress readout to 100%, then plays a reveal
+ * sequence: bar seals, content lifts, curtain wipes up, and onReveal fires
+ * mid-wipe so the hero intro overlaps the lift.
+ *
+ * Deliberately free of drei/useProgress: the scene is fully procedural and
+ * its chunk streams in lazily behind this curtain, so tracking "asset
+ * progress" would drag the whole three.js bundle into the entry chunk.
  */
 export function Preloader({ onReveal }: { onReveal: () => void }) {
-  const { progress, active } = useProgress()
   const rootRef = useRef<HTMLDivElement>(null)
   const fillRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
-  const progressRef = useRef({ progress, active })
-  progressRef.current = { progress, active }
   const onRevealRef = useRef(onReveal)
   onRevealRef.current = onReveal
-  const revealCalled = useRef(false)
   const [display, setDisplay] = useState(0)
   const [finished, setFinished] = useState(false)
 
   useEffect(() => {
     const startedAt = performance.now()
-    const minimum = 1700
-    let value = 0
+    // Nothing is actually downloading; the minimum just keeps the curtain
+    // readable instead of a strobe (and covers the 3D chunk streaming in).
+    const minimum = 700
     let rafId = 0
 
     const finish = () => {
@@ -39,18 +38,12 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
     }
 
     const tick = () => {
-      const { progress: p, active: a } = progressRef.current
-      const ramp = Math.min(1, (performance.now() - startedAt) / minimum)
-      const target = Math.min(a ? Math.max(p, 15) : 100, ramp * 108)
-      value = Math.max(value, target)
+      const value = Math.min(1, (performance.now() - startedAt) / minimum) * 100
       setDisplay(value)
       if (fillRef.current) fillRef.current.style.transform = `scaleX(${value / 100})`
 
       if (value >= 99.9) {
-        if (!revealCalled.current) {
-          revealCalled.current = true
-          finish()
-        }
+        finish()
         return
       }
       rafId = requestAnimationFrame(tick)

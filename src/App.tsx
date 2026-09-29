@@ -1,15 +1,20 @@
-import { useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
-import { Experience } from './components/scene/Experience'
 import { Overlay } from './components/ui/Overlay'
 import { Nav } from './components/ui/Nav'
 import { Preloader } from './components/ui/Preloader'
 import { lenisRef, scrollState } from './lib/scrollState'
 
 gsap.registerPlugin(ScrollTrigger)
+
+// The WebGL stage streams in as its own chunk behind the preloader curtain,
+// so first paint only waits on the small app shell.
+const Experience = lazy(() =>
+  import('./components/scene/Experience').then((m) => ({ default: m.Experience })),
+)
 
 export default function App() {
   const [revealed, setRevealed] = useState(false)
@@ -19,7 +24,7 @@ export default function App() {
     history.scrollRestoration = 'manual'
     window.scrollTo(0, 0)
 
-    const lenis = new Lenis({ lerp: 0.1 })
+    const lenis = new Lenis({ lerp: 0.15 })
     lenisRef.current = lenis
     lenis.stop() // locked until the preloader lifts
 
@@ -85,7 +90,9 @@ export default function App() {
 
   return (
     <>
-      <Experience />
+      <Suspense fallback={null}>
+        <Experience />
+      </Suspense>
       <Overlay />
       <Nav />
       <div className="vignette" aria-hidden="true" />
