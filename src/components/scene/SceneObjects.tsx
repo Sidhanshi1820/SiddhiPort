@@ -23,8 +23,8 @@ type Station = {
 const STATIONS: Station[] = [
   { position: [-3.8, 1.2, -33], color: '#c5a059', kind: 'shield', scale: 1.0, phase: 0.2, spin: 0.32 },
   { position: [3.8, 1.1, -54], color: '#a8823f', kind: 'lock', scale: 0.85, phase: 1.1, spin: 0.32 },
-  { position: [-3.8, 1.1, -72], color: '#d4b57a', kind: 'wifi', scale: 1.15, phase: 2.0, spin: 0.36 },
-  { position: [3.8, 1.2, -90], color: '#e0c48a', kind: 'lens', scale: 1.05, phase: 2.9, spin: 0.3 },
+  { position: [-3.8, 1.1, -66], color: '#d4b57a', kind: 'wifi', scale: 1.15, phase: 2.0, spin: 0.36 },
+  { position: [3.8, 1.2, -80], color: '#e0c48a', kind: 'lens', scale: 1.05, phase: 2.9, spin: 0.3 },
   { position: [1.6, 1.0, -118], color: '#ffd23f', kind: 'key', scale: 1.0, phase: 3.7, spin: 0.3 },
 ]
 

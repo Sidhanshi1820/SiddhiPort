@@ -6,6 +6,7 @@ import {
   education,
   profile,
   projects,
+  skillPanels,
 } from '../../data/portfolio'
 import { scrollToSection } from '../../lib/scrollState'
 
@@ -56,6 +57,7 @@ const ICONS = {
   shield: 'M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z M9 12l2 2 4-4',
   award: 'M12 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M8.5 13.5L7 21l5-3 5 3-1.5-7.5',
   code: 'M8 6l-5 6 5 6 M16 6l5 6-5 6 M13 4l-2 16',
+  grid: 'M4 4h6v6H4z M14 4h6v6h-6z M4 14h6v6H4z M14 14h6v6h-6z',
 }
 
 export default function Overlay() {
@@ -115,9 +117,9 @@ export default function Overlay() {
             <a className="info-line" href={`mailto:${profile.email}`}>
               <Icon d={ICONS.mail} /> {profile.email}
             </a>
-            <span className="info-line">
+            <a className="info-line" href={profile.phoneHref}>
               <Icon d={ICONS.phone} /> {profile.phone}
-            </span>
+            </a>
           </div>
           <div className="info-block">
             <p className="info-label">
@@ -240,6 +242,39 @@ export default function Overlay() {
         </div>
       </section>
 
+      {/* ============ SKILLS & TOOLS ============ */}
+      <section className="section" id="skills">
+        <div className="wrap" data-reveal-group>
+          <p className="eyebrow" data-reveal>Skills</p>
+          <h2 className="section-title" data-reveal>
+            Skills &amp; tools.
+          </h2>
+          <div className="panel-grid">
+            {skillPanels.map((panel) => (
+              <div className="skill-panel" data-reveal key={panel.title}>
+                <div className="skill-panel-head">
+                  <Icon d={ICONS.grid} size={17} />
+                  <h3>{panel.title}</h3>
+                </div>
+                <div className="skill-rows">
+                  {panel.rows.map((row) => (
+                    <div className="skill-row" key={row.name}>
+                      <div className="skill-info">
+                        <p className="skill-name">{row.name}</p>
+                        <p className="skill-desc">{row.desc}</p>
+                      </div>
+                      <span className={`skill-level level-${row.level.toLowerCase()}`}>
+                        {row.level}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ============ CERTIFICATIONS ============ */}
       <section className="section" id="certifications">
         <div className="wrap" data-reveal-group>
@@ -288,7 +323,8 @@ export default function Overlay() {
               </button>
             </div>
             <p className="contact-phone" data-reveal>
-              <Icon d={ICONS.phone} /> {profile.phone}
+              <Icon d={ICONS.phone} />
+              <a href={profile.phoneHref}>{profile.phone}</a>
             </p>
           </div>
           <form className="contact-form" data-reveal onSubmit={submitContact}>

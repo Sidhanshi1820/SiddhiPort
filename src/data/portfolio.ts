@@ -17,8 +17,8 @@ export const profile = {
   email: 'sidhanshisrivastava00@gmail.com',
   availability:
     'Seeking a cybersecurity internship. Open to SOC work, security research, and collaborative projects.',
-  // Placeholder until a real number is shared — swap it in data/portfolio.ts.
-  phone: '+91 XXXXX XXXXX',
+  phone: '+91 89310 14448',
+  phoneHref: 'tel:+918931014448',
 
   // Platform profiles. TryHackMe/HackTheBox/X/Discord are placeholders —
   // drop in the real profile URLs when they exist.
@@ -35,6 +35,80 @@ export const profile = {
     { label: 'Discord', url: '#' },
   ],
 }
+
+export interface SkillPanel {
+  title: string
+  rows: Array<{ name: string; level: 'Core' | 'Proficient' | 'Learning'; desc: string }>
+}
+
+// "Skills & Tools" section — two panels, levels from the resume.
+export const skillPanels: SkillPanel[] = [
+  {
+    title: 'Cyber Security',
+    rows: [
+      {
+        name: 'Network Security',
+        level: 'Core',
+        desc: 'Packet analysis, protocol analysis and network troubleshooting',
+      },
+      {
+        name: 'Penetration Testing',
+        level: 'Proficient',
+        desc: 'VAPT methodology, exploitation and CTF challenges',
+      },
+      {
+        name: 'Web Application Security',
+        level: 'Proficient',
+        desc: 'OWASP Top 10, SQL injection & XSS testing, Burp Suite interception',
+      },
+      {
+        name: 'Security Monitoring',
+        level: 'Proficient',
+        desc: 'SOC analysis, SIEM, incident response and log analysis',
+      },
+      {
+        name: 'Wireless Security',
+        level: 'Proficient',
+        desc: 'Aircrack-based wifi auditing and rogue AP detection',
+      },
+    ],
+  },
+  {
+    title: 'Programming & Tools',
+    rows: [
+      {
+        name: 'Python',
+        level: 'Core',
+        desc: 'Security automation, scripting and application development',
+      },
+      {
+        name: 'Wireshark',
+        level: 'Core',
+        desc: 'Network protocol analysis and traffic monitoring',
+      },
+      {
+        name: 'Kali Linux',
+        level: 'Proficient',
+        desc: 'Penetration testing and security auditing platform',
+      },
+      {
+        name: 'Nmap',
+        level: 'Proficient',
+        desc: 'Host discovery, port scanning and service enumeration',
+      },
+      {
+        name: 'Metasploit',
+        level: 'Learning',
+        desc: 'Exploitation framework and vulnerability testing',
+      },
+      {
+        name: 'AI & Automation',
+        level: 'Learning',
+        desc: 'Local LLM deployment, Gemini API, PyTorch and LangChain',
+      },
+    ],
+  },
+]
 
 // Hands-on practice areas shown in the CTF write-ups section.
 export const ctfLabs = [
@@ -162,6 +236,7 @@ export const NAV_LINKS = [
   { label: 'About me', target: '#about' },
   { label: 'Projects', target: '#projects' },
   { label: 'CTF write-ups', target: '#ctf' },
+  { label: 'Skills', target: '#skills' },
   { label: 'Certifications', target: '#certifications' },
   { label: 'Contact me', target: '#contact' },
 ]
