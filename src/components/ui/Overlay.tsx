@@ -6,7 +6,7 @@ import {
   education,
   profile,
   projects,
-  skillPanels,
+  skillCategories,
 } from '../../data/portfolio'
 import { scrollToSection } from '../../lib/scrollState'
 
@@ -249,26 +249,18 @@ export default function Overlay() {
           <h2 className="section-title" data-reveal>
             Skills &amp; tools.
           </h2>
-          <div className="panel-grid">
-            {skillPanels.map((panel) => (
-              <div className="skill-panel" data-reveal key={panel.title}>
-                <div className="skill-panel-head">
-                  <Icon d={ICONS.grid} size={17} />
-                  <h3>{panel.title}</h3>
+          <div className="skills-cat-grid">
+            {skillCategories.map((cat) => (
+              <div className="skill-cat" data-reveal key={cat.title}>
+                <div className="skill-cat-head">
+                  <Icon d={ICONS.grid} size={14} />
+                  <h3>{cat.title}</h3>
                 </div>
-                <div className="skill-rows">
-                  {panel.rows.map((row) => (
-                    <div className="skill-row" key={row.name}>
-                      <div className="skill-info">
-                        <p className="skill-name">{row.name}</p>
-                        <p className="skill-desc">{row.desc}</p>
-                      </div>
-                      <span className={`skill-level level-${row.level.toLowerCase()}`}>
-                        {row.level}
-                      </span>
-                    </div>
+                <ul className="skill-cat-list">
+                  {cat.skills.map((s) => (
+                    <li key={s}>{s}</li>
                   ))}
-                </div>
+                </ul>
               </div>
             ))}
           </div>

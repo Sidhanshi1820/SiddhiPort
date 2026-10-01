@@ -110,6 +110,43 @@ export const skillPanels: SkillPanel[] = [
   },
 ]
 
+export interface SkillCategory {
+  title: string
+  skills: string[]
+}
+
+// "Skills & Tools" section — all seven categories from the resume.
+export const skillCategories: SkillCategory[] = [
+  {
+    title: 'Programming',
+    skills: ['Python', 'C', 'HTML', 'JavaScript'],
+  },
+  {
+    title: 'Computer Networking',
+    skills: ['TCP/IP', 'DNS', 'HTTP/HTTPS', 'Packet Analysis', 'Network Scanning', 'Protocol Analysis', 'Network Troubleshooting'],
+  },
+  {
+    title: 'Linux & Systems',
+    skills: ['Kali Linux', 'Arch', 'Ubuntu', 'Windows', 'Docker', 'Git'],
+  },
+  {
+    title: 'Ethical Hacking & VAPT',
+    skills: ['Penetration Testing', 'Exploitation (Metasploit)', 'CTF Challenges'],
+  },
+  {
+    title: 'Web Application Security',
+    skills: ['OWASP Top 10', 'SQL Injection & XSS Testing', 'HTTP Request Interception', 'Burp Suite'],
+  },
+  {
+    title: 'Security Monitoring & Tools',
+    skills: ['SOC Analysis', 'SIEM', 'Wireshark', 'Nmap', 'Aircrack-ng', 'Incident Response', 'Log Analysis'],
+  },
+  {
+    title: 'AI & Automation',
+    skills: ['Python-based Security Automation', 'Local LLM Deployment', 'Gemini API', 'PyTorch', 'LangChain'],
+  },
+]
+
 // Hands-on practice areas shown in the CTF write-ups section.
 export const ctfLabs = [
   {
