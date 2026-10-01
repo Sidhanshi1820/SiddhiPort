@@ -904,11 +904,12 @@ a.info-line:hover {
   .hero-visual {
     position: static;
     width: 100%;
-    height: 36vh;
+    height: 38vh;
     flex-shrink: 0;
-    /* Fade out fully before the headline starts — no photo behind the text. */
-    -webkit-mask-image: linear-gradient(to bottom, #000 38%, transparent 82%);
-    mask-image: linear-gradient(to bottom, #000 38%, transparent 82%);
+    /* Mobile: a clean photo block — only the bottom edge softens, the
+       headline never sits on top of the photo. */
+    -webkit-mask-image: linear-gradient(to bottom, #000 86%, rgba(0, 0, 0, 0.45) 100%);
+    mask-image: linear-gradient(to bottom, #000 86%, rgba(0, 0, 0, 0.45) 100%);
   }
 
   .hero-inner {
