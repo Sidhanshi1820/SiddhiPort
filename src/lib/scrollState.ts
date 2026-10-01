@@ -11,6 +11,7 @@ type LenisLike = {
   scrollTo: (target: string | number, options?: Record<string, unknown>) => void
   stop: () => void
   start: () => void
+  raf: (time: number) => void
 }
 
 export const lenisRef: { current: LenisLike | null } = { current: null }
