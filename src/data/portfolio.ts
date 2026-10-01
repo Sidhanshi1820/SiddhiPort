@@ -17,8 +17,6 @@ export const profile = {
   email: 'sidhanshisrivastava00@gmail.com',
   availability:
     'Seeking a cybersecurity internship. Open to SOC work, security research, and collaborative projects.',
-  phone: '+91 89310 14448',
-  phoneHref: 'tel:+918931014448',
 
   // Platform profiles. TryHackMe/HackTheBox/X/Discord are placeholders —
   // drop in the real profile URLs when they exist.
@@ -29,10 +27,14 @@ export const profile = {
     { label: 'HackTheBox', url: 'https://www.hackthebox.eu' },
   ],
   socialIcons: [
-    { label: 'GitHub', url: 'https://github.com/Sidhanshi1820' },
-    { label: 'LinkedIn', url: 'https://linkedin.com/in/sidhanshi-cybersecurity' },
-    { label: 'X', url: '#' },
-    { label: 'Discord', url: '#' },
+    { label: 'GitHub', url: 'https://github.com/Sidhanshi1820', icon: 'github' },
+    { label: 'LinkedIn', url: 'https://linkedin.com/in/sidhanshi-cybersecurity', icon: 'linkedin' },
+    { label: 'Email', url: 'mailto:sidhanshisrivastava00@gmail.com', icon: 'mail' },
+    {
+      label: 'Resume',
+      url: '/Sidhanshi-Srivastava-Resume.pdf',
+      icon: 'resume',
+    },
   ],
 }
 
@@ -139,7 +141,7 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     title: 'Security Monitoring & Tools',
-    skills: ['SOC Analysis', 'SIEM', 'Wireshark', 'Nmap', 'Aircrack-ng', 'Incident Response', 'Log Analysis'],
+    skills: ['Wireshark', 'Nmap', 'Aircrack-ng', 'Incident Response', 'Log Analysis'],
   },
   {
     title: 'AI & Automation',
@@ -226,7 +228,7 @@ export const skillGroups = [
   { title: 'Networking', skills: ['TCP/IP & DNS', 'HTTP/HTTPS', 'Packet Analysis', 'Network Scanning', 'Wireshark', 'Nmap'] },
   { title: 'Systems & Tooling', skills: ['Kali Linux', 'Arch', 'Ubuntu', 'Windows', 'Docker', 'Git'] },
   { title: 'Offensive Security', skills: ['Penetration Testing', 'Metasploit', 'Burp Suite', 'OWASP Top 10', 'SQLi & XSS Testing', 'CTF Challenges'] },
-  { title: 'Monitoring & Defense', skills: ['SOC Analysis', 'SIEM', 'Aircrack-ng', 'Incident Response', 'Log Analysis'] },
+  { title: 'Monitoring & Defense', skills: ['Aircrack-ng', 'Incident Response', 'Log Analysis'] },
   { title: 'AI & Automation', skills: ['Local LLM Deployment', 'PyTorch', 'LangChain', 'Gemini API', 'Security Automation'] },
 ]
 
@@ -273,7 +275,22 @@ export const NAV_LINKS = [
   { label: 'About me', target: '#about' },
   { label: 'Projects', target: '#projects' },
   { label: 'CTF write-ups', target: '#ctf' },
+  { label: 'Achievements', target: '#achievements' },
   { label: 'Skills', target: '#skills' },
   { label: 'Certifications', target: '#certifications' },
   { label: 'Contact me', target: '#contact' },
+]
+
+// Practice platforms showcased in the Achievements section.
+export const platforms = [
+  {
+    label: 'TryHackMe',
+    url: 'https://tryhackme.com',
+    desc: 'Guided offensive-security labs and learning paths — recon, web exploitation and privilege-escalation exercises, tracked with points and badges.',
+  },
+  {
+    label: 'Hack The Box',
+    url: 'https://www.hackthebox.eu',
+    desc: 'Active machines tackled end to end — enumeration, foothold and privilege escalation on realistic corporate-style targets.',
+  },
 ]

@@ -317,7 +317,7 @@ a {
   background: rgba(18, 16, 14, 0.72);
   backdrop-filter: blur(10px);
   display: grid;
-  grid-template-columns: 1.1fr 1fr auto;
+  grid-template-columns: 1fr auto;
   gap: 2rem;
   padding: 1.2rem var(--pad-x);
   align-items: start;
@@ -572,6 +572,82 @@ a.info-line:hover {
 }
 
 /* --------------------------------------------------------------------------
+   Achievements — practice platforms
+   -------------------------------------------------------------------------- */
+
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.4rem;
+  margin-top: 0.6rem;
+}
+
+.platform-card {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius);
+  padding: 1.7rem 1.6rem;
+  transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+}
+
+.platform-card:hover {
+  border-color: var(--gold);
+  box-shadow: var(--shadow-gold);
+  transform: translateY(-3px);
+}
+
+.platform-glyph {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+}
+
+.platform-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+}
+
+.platform-desc {
+  margin-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.platform-link {
+  display: inline-block;
+  margin-top: 1.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid var(--gold-dim);
+  padding-bottom: 0.2rem;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.platform-card:hover .platform-link {
+  color: var(--gold-light);
+  border-color: var(--gold-light);
+}
+
+@media (max-width: 900px) {
+  .platform-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --------------------------------------------------------------------------
    Skills & Tools — category cards
    -------------------------------------------------------------------------- */
 
@@ -717,24 +793,6 @@ a.info-line:hover {
   flex-wrap: wrap;
 }
 
-.contact-phone {
-  margin-top: 1.4rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.contact-phone a {
-  color: inherit;
-  transition: color 0.3s;
-}
-
-.contact-phone a:hover {
-  color: var(--gold);
-}
 
 .contact-form {
   display: flex;

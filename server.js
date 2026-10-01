@@ -35,6 +35,7 @@ const MIME = {
   '.json': 'application/json',
   '.woff2': 'font/woff2',
   '.txt': 'text/plain; charset=utf-8',
+  '.pdf': 'application/pdf',
 }
 
 const SYSTEM_PROMPT = `You are the assistant embedded in Sidhanshi Srivastava's portfolio website. Facts you know — never invent portfolio facts beyond these:
