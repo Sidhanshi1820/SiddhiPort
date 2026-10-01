@@ -24,3 +24,6 @@ Thumbs.db
 # ZCode workspace
 .zcodeignore
 .zcode/
+
+# Secrets
+.env

@@ -5,8 +5,8 @@
 
 export const profile = {
   name: 'Sidhanshi Srivastava',
-  firstName: 'SIDHANSHI',
-  lastName: 'SRIVASTAVA',
+  firstName: 'Sidhanshi',
+  lastName: 'Srivastava',
   initials: 'SS',
 
   role: 'B.Tech CSE (Cyber Security) · Security Tooling & Network Analysis',
@@ -16,22 +16,47 @@ export const profile = {
 
   email: 'sidhanshisrivastava00@gmail.com',
   availability:
-    'Seeking a cybersecurity internship. Open to SOC work, security research, and ambitious builds.',
+    'Seeking a cybersecurity internship. Open to SOC work, security research, and collaborative projects.',
+  // Placeholder until a real number is shared — swap it in data/portfolio.ts.
+  phone: '+91 XXXXX XXXXX',
 
-  // "system.status" panel shown in the About section.
-  stats: [
-    { label: 'role', value: 'B.Tech CSE · Cyber Security' },
-    { label: 'campus', value: 'NIET, Greater Noida · CGPA 8.4' },
-    { label: 'core_stack', value: 'Python · C · JavaScript' },
-    { label: 'specialty', value: 'Network analysis · AI for security' },
-    { label: 'status', value: 'open to internships' },
-  ],
-
+  // Platform profiles. TryHackMe/HackTheBox/X/Discord are placeholders —
+  // drop in the real profile URLs when they exist.
   socials: [
     { label: 'GitHub', url: 'https://github.com/Sidhanshi1820' },
     { label: 'LinkedIn', url: 'https://linkedin.com/in/sidhanshi-cybersecurity' },
+    { label: 'TryHackMe', url: 'https://tryhackme.com' },
+    { label: 'HackTheBox', url: 'https://www.hackthebox.eu' },
+  ],
+  socialIcons: [
+    { label: 'GitHub', url: 'https://github.com/Sidhanshi1820' },
+    { label: 'LinkedIn', url: 'https://linkedin.com/in/sidhanshi-cybersecurity' },
+    { label: 'X', url: '#' },
+    { label: 'Discord', url: '#' },
   ],
 }
+
+// Hands-on practice areas shown in the CTF write-ups section.
+export const ctfLabs = [
+  {
+    title: 'WEB EXPLOITATION LABS',
+    tagline: 'burp suite · owasp top 10',
+    description:
+      'Hands-on practice with SQL injection, XSS and auth-bypass challenges. Requests proxied through Burp Suite, findings written up as reproducible steps.',
+  },
+  {
+    title: 'NETWORK FORENSICS',
+    tagline: 'wireshark · packet analysis',
+    description:
+      'Capture-the-packet exercises: following TCP/HTTP streams, spotting suspicious DNS and ARP traffic, and reconstructing what happened from a .pcap alone.',
+  },
+  {
+    title: 'RECON & ENUMERATION',
+    tagline: 'nmap · metasploit · linux',
+    description:
+      'Lab machines walked end to end — host discovery, service enumeration, exploit research and privilege-escalation notes, documented machine by machine.',
+  },
+]
 
 export interface Project {
   index: string
@@ -51,7 +76,7 @@ export const projects: Project[] = [
     description:
       'A Python-based detection tool that identifies unauthorized access points and deauthentication flood attacks associated with Evil Twin attacks. Live captures from Wireshark and Aircrack-ng feed a locally hosted Qwen-based LLM that reasons over scan output and flags rogue APs in real time. No cloud dependency.',
     tech: ['Python', 'Qwen LLM (local)', 'Kali Linux', 'Wireshark', 'Aircrack-ng'],
-    accent: '#67e8f9',
+    accent: '#2ba8a2',
     links: {
       live: 'https://github.com/Sidhanshi1820',
       source: 'https://github.com/Sidhanshi1820',
@@ -64,7 +89,7 @@ export const projects: Project[] = [
     description:
       'System architecture and data pipeline for an automated, AI-driven cryptographic management platform. FastAPI services with Redis + Celery workers, scikit-learn and PyTorch models driving real-time anomaly detection. Designed end to end around confidentiality, integrity, and availability.',
     tech: ['Python', 'FastAPI', 'scikit-learn', 'PyTorch', 'Redis', 'Celery', 'Docker'],
-    accent: '#a78bfa',
+    accent: '#e6b800',
     links: {
       live: 'https://github.com/Sidhanshi1820',
       source: 'https://github.com/Sidhanshi1820',
@@ -77,7 +102,7 @@ export const projects: Project[] = [
     description:
       'Full system architecture and database flow for a secure event management platform: HTML5/CSS3/JavaScript front end, PHP + MySQL back end exposed through REST APIs and JSON contracts. Architected around the confidentiality–integrity–availability triad with hardened data flow between layers.',
     tech: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'MySQL', 'REST APIs'],
-    accent: '#f472b6',
+    accent: '#ef6c4a',
     links: {
       live: 'https://github.com/Sidhanshi1820',
       source: 'https://github.com/Sidhanshi1820',
@@ -130,12 +155,13 @@ export const PAGE_SECTIONS = [
   { id: 'work-2', label: 'Case file 02' },
   { id: 'work-3', label: 'Case file 03' },
   { id: 'skills', label: 'Protocols' },
-  { id: 'contact', label: 'Uplink' },
+  { id: 'contact', label: 'Contact' },
 ]
 
 export const NAV_LINKS = [
-  { label: 'Identity', target: '#about' },
-  { label: 'Case files', target: '#work-1' },
-  { label: 'Protocols', target: '#skills' },
-  { label: 'Uplink', target: '#contact' },
+  { label: 'About me', target: '#about' },
+  { label: 'Projects', target: '#projects' },
+  { label: 'CTF write-ups', target: '#ctf' },
+  { label: 'Certifications', target: '#certifications' },
+  { label: 'Contact me', target: '#contact' },
 ]

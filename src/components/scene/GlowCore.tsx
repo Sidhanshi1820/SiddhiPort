@@ -34,9 +34,9 @@ const fragmentShader = /* glsl */ `
     float bands = 0.5 + 0.5 * sin(vLocal.y * 16.0 - uTime * 1.8);
     float pulse = 0.85 + 0.15 * sin(uTime * 1.3);
     vec3 color = mix(uColA, uColB, clamp(fres * 1.4, 0.0, 1.0));
-    color *= (0.42 + fres * 2.1 + bands * 0.10) * pulse;
+    color *= (0.5 + fres * 1.9 + bands * 0.1) * pulse;
     float fogFade = smoothstep(30.0, 95.0, distance(cameraPosition, vWorld));
-    color = mix(color, vec3(0.012, 0.012, 0.035), fogFade);
+    color = mix(color, vec3(0.071, 0.063, 0.055), fogFade);
     gl_FragColor = vec4(color, 1.0);
   }
 `
@@ -49,7 +49,7 @@ type Props = {
 }
 
 /** Pulsing fresnel "energy core": the hero centerpiece and the heart of other structures. */
-export function GlowCore({ radius = 1.2, colorA = '#3b2a8f', colorB = '#67e8f9', speed = 1 }: Props) {
+export function GlowCore({ radius = 1.2, colorA = '#4a3a1c', colorB = '#c5a059', speed = 1 }: Props) {
   const mesh = useRef<THREE.Mesh>(null)
 
   const uniforms = useMemo(
