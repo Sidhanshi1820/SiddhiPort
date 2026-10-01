@@ -217,8 +217,7 @@ a {
 .hero-inner {
   position: relative;
   width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 1440px;
   padding-bottom: 7.5rem; /* room for the info bar */
   z-index: 1;
 }
@@ -661,6 +660,15 @@ a.info-line:hover {
   color: var(--muted);
 }
 
+.contact-phone a {
+  color: inherit;
+  transition: color 0.3s;
+}
+
+.contact-phone a:hover {
+  color: var(--gold);
+}
+
 .contact-form {
   display: flex;
   flex-direction: column;
@@ -896,10 +904,11 @@ a.info-line:hover {
   .hero-visual {
     position: static;
     width: 100%;
-    height: 42vh;
+    height: 36vh;
     flex-shrink: 0;
-    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 98%);
-    mask-image: linear-gradient(to bottom, #000 55%, transparent 98%);
+    /* Fade out fully before the headline starts — no photo behind the text. */
+    -webkit-mask-image: linear-gradient(to bottom, #000 38%, transparent 82%);
+    mask-image: linear-gradient(to bottom, #000 38%, transparent 82%);
   }
 
   .hero-inner {
