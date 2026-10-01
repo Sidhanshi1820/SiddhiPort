@@ -310,9 +310,8 @@ export default function Overlay() {
       {/* ============ CERTIFICATIONS ============ */}
       <section className="section" id="certifications">
         <div className="wrap" data-reveal-group>
-          <p className="eyebrow" data-reveal>Certifications</p>
           <h2 className="section-title" data-reveal>
-            Training on record.
+            Certifications
           </h2>
           <div className="cert-list">
             {certifications.map((c) => (
