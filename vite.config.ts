@@ -6,6 +6,12 @@ export default defineConfig({
   // sub-path (e.g. GitHub Pages project sites) or opened directly from disk.
   base: './',
   plugins: [react()],
+  server: {
+    // Dev convenience: proxy /api to the production server (node server.js).
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+  },
   build: {
     chunkSizeWarningLimit: 1600,
     rollupOptions: {
