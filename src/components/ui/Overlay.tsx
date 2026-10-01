@@ -51,7 +51,7 @@ function Icon({ d, size = 15 }: { d: string; size?: number }) {
   )
 }
 
-const ICONS = {
+const ICONS: Record<string, string> = {
   mail: 'M4 6h16v12H4z M4 7l8 6 8-6',
   file: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8',
   link: 'M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-2 2 M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l2-2',
