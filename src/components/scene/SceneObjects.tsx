@@ -1,15 +1,25 @@
 import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
-import { GlowCore } from './GlowCore'
-import { HERO_OBJECT_POSITION } from '../../lib/paths'
-import { scrollState } from '../../lib/scrollState'
 
 // One cyber-security tool per section, staged along the camera corridor.
 // Each model is built from primitives (no assets to load): shield, wi-fi
-// signal, padlock, network graph, magnifier and key. They bob in place and
-// emerge from the fog as you travel past their section.
+// signal, padlock, magnifier and key. They bob in place and emerge from the
+// fog as you travel past their section.
 type ToolKind = 'shield' | 'wifi' | 'lock' | 'network' | 'lens' | 'key'
+
+// Shield silhouette drawn once at module load; extruded per instance.
+const SHIELD_SHAPE = (() => {
+  const s = new THREE.Shape()
+  s.moveTo(0, 1.3)
+  s.bezierCurveTo(0.7, 1.15, 1.05, 1.05, 1.05, 0.6)
+  s.lineTo(1.05, -0.2)
+  s.bezierCurveTo(1.05, -0.75, 0.5, -1.15, 0, -1.4)
+  s.bezierCurveTo(-0.5, -1.15, -1.05, -0.75, -1.05, -0.2)
+  s.lineTo(-1.05, 0.6)
+  s.bezierCurveTo(-1.05, 1.05, -0.7, 1.15, 0, 1.3)
+  return s
+})()
 
 type Station = {
   position: [number, number, number]
@@ -27,19 +37,6 @@ const STATIONS: Station[] = [
   { position: [3.8, 1.2, -80], color: '#e0c48a', kind: 'lens', scale: 1.05, phase: 2.9, spin: 0.3 },
   { position: [1.6, 1.0, -118], color: '#ffd23f', kind: 'key', scale: 1.0, phase: 3.7, spin: 0.3 },
 ]
-
-// Shield silhouette drawn once at module load; extruded per instance.
-const SHIELD_SHAPE = (() => {
-  const s = new THREE.Shape()
-  s.moveTo(0, 1.3)
-  s.bezierCurveTo(0.7, 1.15, 1.05, 1.05, 1.05, 0.6)
-  s.lineTo(1.05, -0.2)
-  s.bezierCurveTo(1.05, -0.75, 0.5, -1.15, 0, -1.4)
-  s.bezierCurveTo(-0.5, -1.15, -1.05, -0.75, -1.05, -0.2)
-  s.lineTo(-1.05, 0.6)
-  s.bezierCurveTo(-1.05, 1.05, -0.7, 1.15, 0, 1.3)
-  return s
-})()
 
 function Metal({ color }: { color: string }) {
   // Emissive keeps the hue alive deep in the corridor, where the point
@@ -239,24 +236,10 @@ function CyberTool({ kind, color }: { kind: ToolKind; color: string }) {
 }
 
 export function SceneObjects() {
-  const heroRef = useRef<THREE.Group>(null)
-  const cageRef = useRef<THREE.Mesh>(null)
   const stationRefs = useRef<(THREE.Group | null)[]>([])
 
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime
-    if (heroRef.current) {
-      heroRef.current.position.set(
-        HERO_OBJECT_POSITION[0],
-        HERO_OBJECT_POSITION[1] + Math.sin(t * 0.5) * 0.12,
-        HERO_OBJECT_POSITION[2],
-      )
-      heroRef.current.scale.setScalar(Math.max(0.0001, scrollState.intro))
-    }
-    if (cageRef.current) {
-      cageRef.current.rotation.y += delta * 0.1
-      cageRef.current.rotation.x = Math.sin(t * 0.25) * 0.15
-    }
     stationRefs.current.forEach((g, i) => {
       if (!g) return
       const s = STATIONS[i]
@@ -267,14 +250,6 @@ export function SceneObjects() {
 
   return (
     <>
-      <group ref={heroRef} position={HERO_OBJECT_POSITION} scale={0.0001}>
-        <GlowCore radius={1.2} />
-        <mesh ref={cageRef}>
-          <icosahedronGeometry args={[1.9, 1]} />
-          <meshBasicMaterial color="#c5a059" wireframe transparent opacity={0.16} toneMapped={false} />
-        </mesh>
-      </group>
-
       {STATIONS.map((s, i) => (
         <group
           key={i}
