@@ -286,11 +286,19 @@ export const platforms = [
   {
     label: 'TryHackMe',
     url: 'https://tryhackme.com',
+    glyph: 'layers',
     desc: 'Guided offensive-security labs and learning paths — recon, web exploitation and privilege-escalation exercises, tracked with points and badges.',
   },
   {
     label: 'Hack The Box',
     url: 'https://www.hackthebox.eu',
+    glyph: 'layers',
     desc: 'Active machines tackled end to end — enumeration, foothold and privilege escalation on realistic corporate-style targets.',
+  },
+  {
+    label: 'PortSwigger Academy',
+    url: 'https://portswigger.net/web-security',
+    glyph: 'code',
+    desc: 'Web-security academy labs — SQL injection, XSS, access control and request-smuggling exercises, solved through Burp Suite.',
   },
 ]

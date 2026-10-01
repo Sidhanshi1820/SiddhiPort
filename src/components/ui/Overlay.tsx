@@ -271,7 +271,7 @@ export default function Overlay() {
                 rel="noreferrer"
               >
                 <div className="platform-glyph" aria-hidden="true">
-                  <Icon d={ICONS.layers} size={20} />
+                  <Icon d={ICONS[p.glyph]} size={20} />
                 </div>
                 <h3>{p.label}</h3>
                 <p className="platform-desc">{p.desc}</p>
