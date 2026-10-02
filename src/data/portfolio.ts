@@ -210,7 +210,7 @@ export const projects: Project[] = [
   },
   {
     index: '03',
-    title: 'SECURE EVENT MANAGER',
+    title: 'EVENT MANAGEMENT SYSTEM',
     tagline: 'php · mysql · rest apis · status: shipped',
     description:
       'Full system architecture and database flow for a secure event management platform: HTML5/CSS3/JavaScript front end, PHP + MySQL back end exposed through REST APIs and JSON contracts. Architected around the confidentiality–integrity–availability triad with hardened data flow between layers.',
