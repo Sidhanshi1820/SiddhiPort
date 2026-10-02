@@ -47,7 +47,9 @@ export default function App() {
     let lenis: Lenis | null = null
     let raf: ((time: number) => void) | null = null
     if (!reduced) {
-      lenis = new Lenis({ lerp: 0.15 })
+      // Snappy but still eased: lerp 0.22 keeps the glide without the floaty
+      // lag, and the multipliers let one wheel tick cover more ground.
+      lenis = new Lenis({ lerp: 0.22, wheelMultiplier: 1.15, touchMultiplier: 1.4 })
       lenisRef.current = lenis
       lenis.stop() // locked until the preloader lifts
 
