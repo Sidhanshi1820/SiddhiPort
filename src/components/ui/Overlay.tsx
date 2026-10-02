@@ -84,20 +84,38 @@ function SocialGlyph({ kind }: { kind: string }) {
   return <Icon d={ICONS.link} size={16} />
 }
 
+function fallbackCopy(text: string, done: () => void) {
+  // execCommand fallback for non-secure contexts where navigator.clipboard
+  // doesn't exist.
+  const ta = document.createElement('textarea')
+  ta.value = text
+  ta.style.position = 'fixed'
+  ta.style.opacity = '0'
+  document.body.appendChild(ta)
+  ta.select()
+  try {
+    document.execCommand('copy')
+  } catch {
+    // nothing more we can do — the email is visible right above
+  }
+  ta.remove()
+  done()
+}
+
 export default function Overlay() {
   const [copied, setCopied] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', message: '' })
 
   const copyEmail = () => {
-    navigator.clipboard
-      ?.writeText(profile.email)
-      .then(() => {
-        setCopied(true)
-        window.setTimeout(() => setCopied(false), 1600)
-      })
-      .catch(() => {
-        // clipboard denied — the mailto button still works
-      })
+    const done = () => {
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1600)
+    }
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(profile.email).then(done).catch(() => fallbackCopy(profile.email, done))
+    } else {
+      fallbackCopy(profile.email, done)
+    }
   }
 
   const submitContact = (e: React.FormEvent) => {
@@ -105,10 +123,12 @@ export default function Overlay() {
     const subject = encodeURIComponent(`Portfolio contact — ${form.name || 'visitor'}`)
     const body = encodeURIComponent(`${form.message}\n\n— ${form.name}\n${form.email}`)
     window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`
+    setForm({ name: '', email: '', message: '' })
   }
 
   return (
-    <main id="page">
+    <>
+      <main id="page">
       {/* ============ HERO ============ */}
       <section className="section section-hero" id="hero">
         <div className="hero-glow" aria-hidden="true" />
@@ -380,6 +400,7 @@ export default function Overlay() {
               <textarea
                 required
                 rows={4}
+                maxLength={600}
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 placeholder="What are we building?"
@@ -388,12 +409,14 @@ export default function Overlay() {
             <button className="btn btn-solid" type="submit">
               Send message
             </button>
+            <p className="form-hint">Opens your email app — or copy the address above.</p>
           </form>
         </div>
       </section>
+    </main>
 
-      {/* ============ FOOTER ============ */}
-      <footer className="footer">
+    {/* ============ FOOTER ============ */}
+    <footer className="footer">
         <span>© {YEAR} {profile.name}</span>
         <nav className="footer-nav" aria-label="Footer">
           {NAV_LINKS.map((l) => (
@@ -406,6 +429,6 @@ export default function Overlay() {
         </nav>
         <span>Built with React · Three.js · GSAP</span>
       </footer>
-    </main>
+    </>
   )
 }

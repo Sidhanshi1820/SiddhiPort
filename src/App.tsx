@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import { Component, Suspense, lazy, useEffect, useRef, useState, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
@@ -16,6 +16,21 @@ gsap.registerPlugin(ScrollTrigger)
 const Experience = lazy(() =>
   import('./components/scene/Experience').then((m) => ({ default: m.Experience })),
 )
+
+// If that chunk ever fails to load (flaky network, mid-deploy refresh), the
+// site must stay usable — the canvas is purely decorative.
+class SceneBoundary extends Component<{ children?: ReactNode }, { failed: boolean }> {
+  state = { failed: false }
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+  componentDidCatch(error: unknown) {
+    console.error('3D scene failed to load:', error)
+  }
+  render() {
+    return this.state.failed ? null : this.props.children
+  }
+}
 
 export default function App() {
   const [revealed, setRevealed] = useState(false)
@@ -104,9 +119,11 @@ export default function App() {
 
   return (
     <>
-      <Suspense fallback={null}>
-        <Experience />
-      </Suspense>
+      <SceneBoundary>
+        <Suspense fallback={null}>
+          <Experience />
+        </Suspense>
+      </SceneBoundary>
       <Overlay />
       <Nav />
       <div className="scroll-progress" ref={progressRef} aria-hidden="true" />

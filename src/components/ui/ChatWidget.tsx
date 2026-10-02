@@ -163,16 +163,22 @@ const CHAT_STYLES = `
   .cw-send:hover { color: var(--gold-light); }
 `
 
-export function ChatPanel({ variant = 'float' }: { variant?: 'float' | 'card' }) {
+export function ChatPanel({ variant = 'float', id }: { variant?: 'float' | 'card'; id?: string }) {
   const [messages, setMessages] = useState<Msg[]>([{ from: 'bot', text: WELCOME }])
   const [typing, setTyping] = useState(false)
   const [draft, setDraft] = useState('')
   const logRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   // Keep the newest message in view.
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight
   }, [messages, typing])
+
+  // Focus the input when the panel first appears.
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [])
 
   const send = async (text: string) => {
     const clean = text.trim()
@@ -184,10 +190,11 @@ export function ChatPanel({ variant = 'float' }: { variant?: 'float' | 'card' })
     const reply = await askAI(clean, base)
     setMessages([...base, { from: 'user', text: clean }, { from: 'bot', text: reply }])
     setTyping(false)
+    inputRef.current?.focus()
   }
 
   return (
-    <div className={`cw-panel cw-panel-${variant}`} role="dialog" aria-label="Portfolio chat">
+    <div className={`cw-panel cw-panel-${variant}`} id={id} role="dialog" aria-label="Portfolio chat">
       <div className="cw-head">
         <span className="cw-dot" aria-hidden="true" />
         <span className="cw-title">Portfolio Assistant</span>
@@ -217,7 +224,7 @@ export function ChatPanel({ variant = 'float' }: { variant?: 'float' | 'card' })
 
       <div className="cw-chips">
         {QUICK_CHIPS.map((chip) => (
-          <button key={chip} className="cw-chip" onClick={() => send(chip)}>
+          <button key={chip} className="cw-chip" onClick={() => send(chip)} disabled={typing}>
             {chip}
           </button>
         ))}
@@ -231,13 +238,15 @@ export function ChatPanel({ variant = 'float' }: { variant?: 'float' | 'card' })
         }}
       >
         <input
+          ref={inputRef}
           className="cw-input"
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder="Ask me anything…"
           aria-label="Type your question"
+          disabled={typing}
         />
-        <button className="cw-send" type="submit">
+        <button className="cw-send" type="submit" disabled={typing}>
           Send
         </button>
       </form>
@@ -252,8 +261,15 @@ export function ChatWidget() {
   // signals out via this custom event so state stays in one place.
   useEffect(() => {
     const onClose = () => setOpen(false)
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
     window.addEventListener('cw-close', onClose)
-    return () => window.removeEventListener('cw-close', onClose)
+    window.addEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('cw-close', onClose)
+      window.removeEventListener('keydown', onKey)
+    }
   }, [])
 
   return (
@@ -263,6 +279,8 @@ export function ChatWidget() {
         className="cw-btn"
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? 'Close chat' : 'Open chat about skills, projects and portfolio'}
+        aria-expanded={open}
+        aria-controls="cw-panel"
       >
         {open ? (
           <span style={{ fontSize: '1.3rem', lineHeight: 1 }}>×</span>
@@ -281,7 +299,7 @@ export function ChatWidget() {
         )}
       </button>
 
-      {open && <ChatPanel variant="float" />}
+      {open && <ChatPanel variant="float" id="cw-panel" />}
     </>
   )
 }

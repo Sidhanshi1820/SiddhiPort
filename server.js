@@ -26,40 +26,70 @@ try {
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript',
+  '.mjs': 'text/javascript',
   '.css': 'text/css',
   '.svg': 'image/svg+xml',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.png': 'image/png',
+  '.webp': 'image/webp',
   '.ico': 'image/x-icon',
   '.json': 'application/json',
+  '.woff': 'font/woff',
   '.woff2': 'font/woff2',
-  '.txt': 'text/plain; charset=utf-8',
   '.pdf': 'application/pdf',
+  '.txt': 'text/plain; charset=utf-8',
+  '.webm': 'video/webm',
+  '.mp4': 'video/mp4',
+}
+
+// Security headers on every response (API + static).
+function secure(res) {
+  res.setHeader('X-Content-Type-Options', 'nosniff')
+  res.setHeader('X-Frame-Options', 'DENY')
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
 }
 
 const SYSTEM_PROMPT = `You are the assistant embedded in Sidhanshi Srivastava's portfolio website. Facts you know — never invent portfolio facts beyond these:
 - B.Tech CSE (Cyber Security) at NIET, Greater Noida, UP, India (2024, pursuing), CGPA 8.4. Based in Greater Noida.
-- Skills: Python, C, HTML, JavaScript; TCP/IP, DNS, HTTP/HTTPS, packet analysis, network scanning; Wireshark, Nmap; Kali Linux, Arch, Ubuntu, Windows, Docker, Git; penetration testing, Metasploit, Burp Suite, OWASP Top 10, SQLi & XSS, CTF challenges; SOC analysis, SIEM, Aircrack-ng, incident response, log analysis; local LLM deployment, PyTorch, LangChain, Gemini API, security automation.
+- Skills: Python, C, HTML, JavaScript; TCP/IP, DNS, HTTP/HTTPS, packet analysis, network scanning; Wireshark, Nmap; Kali Linux, Arch, Ubuntu, Windows, Docker, Git; penetration testing, Metasploit, Burp Suite, OWASP Top 10, SQLi & XSS, CTF challenges; Aircrack-ng, incident response, log analysis; local LLM deployment, PyTorch, LangChain, Gemini API, security automation.
 - Projects: 01 FAKE WI-FI DETECTOR — Python tool with a locally hosted Qwen LLM that flags rogue access points and deauth floods in real time from Wireshark/Aircrack-ng captures, no cloud. 02 CRYPTOGRAPHIC SYSTEM — automated cryptographic key-management platform, FastAPI + Redis + Celery, scikit-learn/PyTorch anomaly detection, built around the CIA triad. 03 EVENT MANAGEMENT SYSTEM — HTML/CSS/JS front end, PHP + MySQL back end over REST/JSON, hardened data flow.
 - Certifications: Security Analyst Job Simulation (Tata · Forage, Jul 2025); Python Programming Internship (CodSoft, Jul 2025); Introduction to Cybersecurity (Cisco, Feb 2026).
-- Contact: sidhanshisrivastava00@gmail.com · github.com/Sidhanshi1820 · linkedin.com/in/sidhanshi-cybersecurity. Open to cybersecurity internships.
+- Contact: sidhanshisrivastava00@gmail.com · github.com/Sidhanshi1820 · linkedin.com/in/sidhanshi-cybersecurity. Open to cybersecurity internships. Resume: /Sidhanshi-Srivastava-Resume.pdf
 Style: friendly and concise — short plain-text lines, under 120 words unless the visitor clearly wants detail. Portfolio questions: answer only from the facts above and say honestly when something isn't listed. Any other general question (study tips, tools, career advice, small talk): just answer helpfully like a knowledgeable friend. Never claim to be a human; you're the site's assistant.`
 
-// Light per-IP rate limit so a bot can't burn the Gemini quota.
+// Per-IP rate limit. Behind Render's proxy all sockets share one address, so
+// attribute by the leftmost x-forwarded-for hop instead.
 const buckets = new Map()
+const RATE_LIMIT = 20
+const RATE_WINDOW = 60_000
+
+function clientIp(req) {
+  const fwd = req.headers['x-forwarded-for']
+  if (typeof fwd === 'string' && fwd.length) {
+    return fwd.split(',')[0].trim()
+  }
+  return req.socket.remoteAddress || 'unknown'
+}
+
 function limited(ip) {
   const now = Date.now()
+  // Sweep expired entries so the map can't grow forever.
+  if (buckets.size > 2000) {
+    for (const [k, v] of buckets) {
+      if (now > v.reset) buckets.delete(k)
+    }
+  }
   const b = buckets.get(ip)
   if (!b || now > b.reset) {
-    buckets.set(ip, { count: 1, reset: now + 60_000 })
+    buckets.set(ip, { count: 1, reset: now + RATE_WINDOW })
     return false
   }
   b.count += 1
-  return b.count > 20
+  return b.count > RATE_LIMIT
 }
 
-async function askGemini(message, history) {
+async function askGemini(message, history, signal) {
   const contents = [...history, { from: 'user', text: message }].map((m) => ({
     role: m.from === 'bot' ? 'model' : 'user',
     parts: [{ text: m.text }],
@@ -78,6 +108,7 @@ async function askGemini(message, history) {
         contents,
         generationConfig: { temperature: 0.4, maxOutputTokens: 512 },
       }),
+      signal,
     },
   )
   if (!res.ok) throw new Error(`gemini ${res.status}`)
@@ -87,29 +118,49 @@ async function askGemini(message, history) {
   return text
 }
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
+  secure(res)
+
+  // A dead client must never crash the process or waste Gemini quota.
+  req.on('error', () => {})
+  res.on('error', () => {})
+
   let url
   try {
     url = new URL(req.url, `http://${req.headers.host}`)
   } catch {
-    res.writeHead(400).end()
+    res.writeHead(400, { 'Content-Type': 'text/plain' }).end()
     return
   }
 
-  if (url.pathname === '/api/chat' && req.method === 'POST') {
-    const ip = req.socket.remoteAddress || 'unknown'
-    if (limited(ip)) {
+  // ---------- /api/chat ----------
+  if (url.pathname === '/api/chat') {
+    if (req.method !== 'POST') {
+      res.writeHead(405, { 'Content-Type': 'application/json', Allow: 'POST' })
+      res.end(JSON.stringify({ error: 'method_not_allowed' }))
+      return
+    }
+    if (limited(clientIp(req))) {
       res.writeHead(429, { 'Content-Type': 'application/json' }).end(JSON.stringify({ error: 'rate_limited' }))
       return
     }
+
     let body = ''
-    let size = 0
+    let oversized = false
     req.on('data', (chunk) => {
-      size += chunk.length
-      if (size > 4096) req.destroy()
       body += chunk
+      if (body.length > 4096) oversized = true
     })
+
     req.on('end', async () => {
+      if (oversized) {
+        res.writeHead(413, { 'Content-Type': 'application/json' }).end(JSON.stringify({ error: 'too_large' }))
+        return
+      }
+      // Stop the upstream call if the visitor closes the tab mid-request.
+      const abort = new AbortController()
+      req.on('close', () => abort.abort())
+      const timeout = setTimeout(() => abort.abort(), 15_000)
       try {
         const { message, history } = JSON.parse(body || '{}')
         if (typeof message !== 'string' || !message.trim() || message.length > 600) {
@@ -124,44 +175,64 @@ const server = http.createServer((req, res) => {
         const hist = (Array.isArray(history) ? history.slice(-6) : [])
           .filter((h) => h && typeof h.text === 'string')
           .map((h) => ({ from: h.from === 'bot' ? 'bot' : 'user', text: String(h.text).slice(0, 500) }))
-        const reply = await askGemini(message.trim(), hist)
+        const reply = await askGemini(message.trim(), hist, abort.signal)
         res.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify({ reply }))
       } catch (err) {
         console.error('chat error:', err.message)
-        res.writeHead(502, { 'Content-Type': 'application/json' }).end(JSON.stringify({ error: 'ai_failed' }))
+        if (!res.headersSent) {
+          res.writeHead(502, { 'Content-Type': 'application/json' }).end(JSON.stringify({ error: 'ai_failed' }))
+        }
+      } finally {
+        clearTimeout(timeout)
       }
     })
     return
   }
 
-  // Static files with SPA fallback (same behaviour as `serve -s dist`).
+  // ---------- static files + SPA fallback ----------
   let pathname
   try {
     pathname = decodeURIComponent(url.pathname)
   } catch {
-    res.writeHead(400).end()
+    res.writeHead(400, { 'Content-Type': 'text/plain' }).end()
     return
   }
   if (pathname.includes('..')) {
-    res.writeHead(403).end()
+    res.writeHead(403, { 'Content-Type': 'text/plain' }).end()
     return
   }
-  let file = path.join(DIST, pathname === '/' ? 'index.html' : pathname)
-  if (!path.extname(file)) file = path.join(DIST, 'index.html') // extensionless → app shell
-  fs.readFile(file, (err, data) => {
+
+  const serves = path.join(DIST, pathname === '/' ? 'index.html' : pathname)
+  const hasExtension = Boolean(path.extname(serves))
+
+  fs.readFile(serves, (err, data) => {
     if (err) {
-      // unknown path → app shell (client routes /privacy, /terms, /health)
+      if (hasExtension) {
+        // A missing real file (bad asset URL) must not masquerade as the app.
+        res.writeHead(404, { 'Content-Type': 'text/plain' }).end('not found')
+        return
+      }
+      // Extensionless deep link (/privacy, /terms, /health) → app shell.
       fs.readFile(path.join(DIST, 'index.html'), (err2, shell) => {
         if (err2) {
-          res.writeHead(404).end('not found')
+          res.writeHead(404, { 'Content-Type': 'text/plain' }).end('not found')
           return
         }
-        res.writeHead(200, { 'Content-Type': MIME['.html'] }).end(shell)
+        res.writeHead(200, {
+          'Content-Type': MIME['.html'],
+          'Cache-Control': 'no-cache',
+        }).end(shell)
       })
       return
     }
+    const ext = path.extname(serves).toLowerCase()
+    // Hashed build assets are immutable; the shell must always revalidate.
+    const cache = serves.includes(`${path.sep}assets${path.sep}`)
+      ? 'public, max-age=31536000, immutable'
+      : 'no-cache'
     res.writeHead(200, {
-      'Content-Type': MIME[path.extname(file).toLowerCase()] || 'application/octet-stream',
+      'Content-Type': MIME[ext] || 'application/octet-stream',
+      'Cache-Control': cache,
     }).end(data)
   })
 })

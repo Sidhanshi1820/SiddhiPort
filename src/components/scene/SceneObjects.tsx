@@ -3,10 +3,10 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
 // One cyber-security tool per section, staged along the camera corridor.
-// Each model is built from primitives (no assets to load): shield, wi-fi
-// signal, padlock, magnifier and key. They bob in place and emerge from the
-// fog as you travel past their section.
-type ToolKind = 'shield' | 'wifi' | 'lock' | 'network' | 'lens' | 'key'
+// Each model is built from primitives (no assets to load): shield, padlock,
+// wi-fi signal, network graph, magnifier, certificate and key. They bob in
+// place and emerge from the fog as you travel past their section.
+type ToolKind = 'shield' | 'wifi' | 'lock' | 'network' | 'lens' | 'cert' | 'key'
 
 // Shield silhouette drawn once at module load; extruded per instance.
 const SHIELD_SHAPE = (() => {
@@ -36,7 +36,10 @@ const STATIONS: Station[] = [
   { position: [-3.8, 1.1, -66], color: '#d4b57a', kind: 'wifi', scale: 1.15, phase: 2.0, spin: 0.36 },
   { position: [3.8, 1.2, -78], color: '#e0c48a', kind: 'network', scale: 1.0, phase: 2.9, spin: 0.3 },
   { position: [-3.8, 1.1, -90], color: '#e0c48a', kind: 'lens', scale: 1.05, phase: 3.7, spin: 0.3 },
-  { position: [1.6, 1.0, -118], color: '#ffd23f', kind: 'key', scale: 1.0, phase: 4.4, spin: 0.3 },
+  { position: [-3.6, 1.15, -102], color: '#d4b57a', kind: 'cert', scale: 0.9, phase: 4.1, spin: 0.28 },
+  // Contact camera dwells at z=-118; keep the key ~10u ahead of it so the
+  // ring isn't clipped by the near plane.
+  { position: [1.4, 1.0, -128], color: '#ffd23f', kind: 'key', scale: 1.0, phase: 4.6, spin: 0.3 },
 ]
 
 function Metal({ color }: { color: string }) {
@@ -219,6 +222,34 @@ function KeyTool({ color }: { color: string }) {
   )
 }
 
+function CertTool({ color }: { color: string }) {
+  // Certificate: a framed document with a wax-seal ring.
+  return (
+    <group>
+      <mesh>
+        <boxGeometry args={[1.6, 1.1, 0.12]} />
+        <Metal color={color} />
+      </mesh>
+      <mesh position={[0, 0, 0.1]}>
+        <boxGeometry args={[1.25, 0.86, 0.04]} />
+        <meshStandardMaterial color="#1a1712" roughness={0.6} metalness={0.1} />
+      </mesh>
+      <mesh position={[0, 0.16, 0.14]}>
+        <torusGeometry args={[0.22, 0.05, 12, 32]} />
+        <Glow color={color} />
+      </mesh>
+      <mesh position={[0, 0.16, 0.13]}>
+        <circleGeometry args={[0.13, 24]} />
+        <Glow color={color} opacity={0.6} />
+      </mesh>
+      <mesh position={[0, -0.24, 0.14]}>
+        <boxGeometry args={[0.9, 0.06, 0.03]} />
+        <Glow color={color} opacity={0.45} />
+      </mesh>
+    </group>
+  )
+}
+
 function CyberTool({ kind, color }: { kind: ToolKind; color: string }) {
   switch (kind) {
     case 'shield':
@@ -231,6 +262,8 @@ function CyberTool({ kind, color }: { kind: ToolKind; color: string }) {
       return <NetworkTool color={color} />
     case 'lens':
       return <LensTool color={color} />
+    case 'cert':
+      return <CertTool color={color} />
     case 'key':
       return <KeyTool color={color} />
   }

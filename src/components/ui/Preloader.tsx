@@ -56,14 +56,17 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
   if (finished) return null
 
   return (
-    <div className="preloader" ref={rootRef} role="status" aria-live="polite">
+    <div className="preloader" ref={rootRef}>
       <div className="pre-inner" ref={contentRef}>
-        <p className="pre-name">{profile.initials}</p>
-        <p className="pre-status">establishing secure session…</p>
+        <p className="pre-name" aria-hidden="true">{profile.initials}</p>
+        {/* Single polite announcement; the per-frame counter is decorative. */}
+        <p className="pre-status" role="status">establishing secure session…</p>
         <div className="pre-bar" aria-hidden="true">
           <div className="pre-bar-fill" ref={fillRef} />
         </div>
-        <p className="pre-count">{Math.round(display).toString().padStart(3, '0')} %</p>
+        <p className="pre-count" aria-hidden="true">
+          {Math.round(display).toString().padStart(3, '0')} %
+        </p>
       </div>
     </div>
   )

@@ -1105,3 +1105,26 @@ a.info-line:hover {
     text-align: center;
   }
 }
+
+/* Chat disabled + copied states */
+.cw-chip:disabled,
+.cw-send:disabled,
+.cw-input:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Contact copy button feedback */
+.copy-btn.copied {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.55);
+}
+
+/* Contact form hint */
+.form-hint {
+  margin-top: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}

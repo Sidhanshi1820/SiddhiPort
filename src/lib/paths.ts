@@ -1,6 +1,6 @@
 // World-space choreography for the scroll journey.
 //
-// The page is 6 sections × 100svh in normal flow. One camera waypoint + one
+// The page is 8 sections × 100svh in normal flow. One camera waypoint + one
 // lookAt waypoint per section; the dwell-and-fly remap in CameraRig holds the
 // camera at each station while that section fills the viewport.
 
@@ -25,7 +25,6 @@ export const LOOK_POINTS: Array<[number, number, number]> = [
   [0, 1.0, -78],
   [0, 1.0, -90],
   [0, 1.0, -102],
-  [0.2, 0.9, -118],
+  // Contact station looks further down the corridor so the key tool is framed.
+  [0.4, 0.9, -130],
 ]
-
-export const HERO_OBJECT_POSITION: [number, number, number] = [0, 0.1, 0]

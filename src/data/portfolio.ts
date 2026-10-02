@@ -16,9 +16,9 @@ export const profile = {
 
   email: 'sidhanshisrivastava00@gmail.com',
   availability:
-    'Seeking a cybersecurity internship. Open to SOC work, security research, and collaborative projects.',
+    'Seeking a cybersecurity internship. Open to security research, and collaborative projects.',
 
-  // Platform profiles. TryHackMe/HackTheBox/X/Discord are placeholders —
+  // Platform profiles. TryHackMe/HackTheBox are placeholders —
   // drop in the real profile URLs when they exist.
   socials: [
     { label: 'GitHub', url: 'https://github.com/Sidhanshi1820' },
@@ -38,77 +38,55 @@ export const profile = {
   ],
 }
 
-export interface SkillPanel {
+export interface Project {
+  index: string
   title: string
-  rows: Array<{ name: string; level: 'Core' | 'Proficient' | 'Learning'; desc: string }>
+  tagline: string
+  description: string
+  tech: string[]
+  accent: string
+  links: { live: string; source: string }
 }
 
-// "Skills & Tools" section — two panels, levels from the resume.
-export const skillPanels: SkillPanel[] = [
+export const projects: Project[] = [
   {
-    title: 'Cyber Security',
-    rows: [
-      {
-        name: 'Network Security',
-        level: 'Core',
-        desc: 'Packet analysis, protocol analysis and network troubleshooting',
-      },
-      {
-        name: 'Penetration Testing',
-        level: 'Proficient',
-        desc: 'VAPT methodology, exploitation and CTF challenges',
-      },
-      {
-        name: 'Web Application Security',
-        level: 'Proficient',
-        desc: 'OWASP Top 10, SQL injection & XSS testing, Burp Suite interception',
-      },
-      {
-        name: 'Security Monitoring',
-        level: 'Proficient',
-        desc: 'SOC analysis, SIEM, incident response and log analysis',
-      },
-      {
-        name: 'Wireless Security',
-        level: 'Proficient',
-        desc: 'Aircrack-based wifi auditing and rogue AP detection',
-      },
-    ],
+    index: '01',
+    title: 'FAKE WI-FI DETECTOR',
+    tagline: 'python · local llm · kali linux · status: active',
+    description:
+      'A Python-based detection tool that identifies unauthorized access points and deauthentication flood attacks associated with Evil Twin attacks. Live captures from Wireshark and Aircrack-ng feed a locally hosted Qwen-based LLM that reasons over scan output and flags rogue APs in real time. No cloud dependency.',
+    tech: ['Python', 'Qwen LLM (local)', 'Kali Linux', 'Wireshark', 'Aircrack-ng'],
+    accent: '#2ba8a2',
+    links: {
+      live: 'https://github.com/Sidhanshi1820',
+      source: 'https://github.com/Sidhanshi1820',
+    },
   },
   {
-    title: 'Programming & Tools',
-    rows: [
-      {
-        name: 'Python',
-        level: 'Core',
-        desc: 'Security automation, scripting and application development',
-      },
-      {
-        name: 'Wireshark',
-        level: 'Core',
-        desc: 'Network protocol analysis and traffic monitoring',
-      },
-      {
-        name: 'Kali Linux',
-        level: 'Proficient',
-        desc: 'Penetration testing and security auditing platform',
-      },
-      {
-        name: 'Nmap',
-        level: 'Proficient',
-        desc: 'Host discovery, port scanning and service enumeration',
-      },
-      {
-        name: 'Metasploit',
-        level: 'Learning',
-        desc: 'Exploitation framework and vulnerability testing',
-      },
-      {
-        name: 'AI & Automation',
-        level: 'Learning',
-        desc: 'Local LLM deployment, Gemini API, PyTorch and LangChain',
-      },
-    ],
+    index: '02',
+    title: 'CRYPTOGRAPHIC SYSTEM',
+    tagline: 'python · fastapi · pytorch · status: research',
+    description:
+      'System architecture and data pipeline for an automated, AI-driven cryptographic management platform. FastAPI services with Redis + Celery workers, scikit-learn and PyTorch models driving real-time anomaly detection. Designed end to end around confidentiality, integrity, and availability.',
+    tech: ['Python', 'FastAPI', 'scikit-learn', 'PyTorch', 'Redis', 'Celery', 'Docker'],
+    accent: '#e6b800',
+    links: {
+      live: 'https://github.com/Sidhanshi1820',
+      source: 'https://github.com/Sidhanshi1820',
+    },
+  },
+  {
+    index: '03',
+    title: 'EVENT MANAGEMENT SYSTEM',
+    tagline: 'php · mysql · rest apis · status: shipped',
+    description:
+      'Full system architecture and database flow for a secure event management platform: HTML5/CSS3/JavaScript front end, PHP + MySQL back end exposed through REST APIs and JSON contracts. Architected around the confidentiality–integrity–availability triad with hardened data flow between layers.',
+    tech: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'MySQL', 'REST APIs'],
+    accent: '#ef6c4a',
+    links: {
+      live: 'https://github.com/Sidhanshi1820',
+      source: 'https://github.com/Sidhanshi1820',
+    },
   },
 ]
 
@@ -171,116 +149,6 @@ export const ctfLabs = [
   },
 ]
 
-export interface Project {
-  index: string
-  title: string
-  tagline: string
-  description: string
-  tech: string[]
-  accent: string
-  links: { live: string; source: string }
-}
-
-export const projects: Project[] = [
-  {
-    index: '01',
-    title: 'FAKE WI-FI DETECTOR',
-    tagline: 'python · local llm · kali linux · status: active',
-    description:
-      'A Python-based detection tool that identifies unauthorized access points and deauthentication flood attacks associated with Evil Twin attacks. Live captures from Wireshark and Aircrack-ng feed a locally hosted Qwen-based LLM that reasons over scan output and flags rogue APs in real time. No cloud dependency.',
-    tech: ['Python', 'Qwen LLM (local)', 'Kali Linux', 'Wireshark', 'Aircrack-ng'],
-    accent: '#2ba8a2',
-    links: {
-      live: 'https://github.com/Sidhanshi1820',
-      source: 'https://github.com/Sidhanshi1820',
-    },
-  },
-  {
-    index: '02',
-    title: 'CRYPTOGRAPHIC SYSTEM',
-    tagline: 'python · fastapi · pytorch · status: research',
-    description:
-      'System architecture and data pipeline for an automated, AI-driven cryptographic management platform. FastAPI services with Redis + Celery workers, scikit-learn and PyTorch models driving real-time anomaly detection. Designed end to end around confidentiality, integrity, and availability.',
-    tech: ['Python', 'FastAPI', 'scikit-learn', 'PyTorch', 'Redis', 'Celery', 'Docker'],
-    accent: '#e6b800',
-    links: {
-      live: 'https://github.com/Sidhanshi1820',
-      source: 'https://github.com/Sidhanshi1820',
-    },
-  },
-  {
-    index: '03',
-    title: 'EVENT MANAGEMENT SYSTEM',
-    tagline: 'php · mysql · rest apis · status: shipped',
-    description:
-      'Full system architecture and database flow for a secure event management platform: HTML5/CSS3/JavaScript front end, PHP + MySQL back end exposed through REST APIs and JSON contracts. Architected around the confidentiality–integrity–availability triad with hardened data flow between layers.',
-    tech: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'MySQL', 'REST APIs'],
-    accent: '#ef6c4a',
-    links: {
-      live: 'https://github.com/Sidhanshi1820',
-      source: 'https://github.com/Sidhanshi1820',
-    },
-  },
-]
-
-export const skillGroups = [
-  { title: 'Languages', skills: ['Python', 'C', 'HTML', 'JavaScript'] },
-  { title: 'Networking', skills: ['TCP/IP & DNS', 'HTTP/HTTPS', 'Packet Analysis', 'Network Scanning', 'Wireshark', 'Nmap'] },
-  { title: 'Systems & Tooling', skills: ['Kali Linux', 'Arch', 'Ubuntu', 'Windows', 'Docker', 'Git'] },
-  { title: 'Offensive Security', skills: ['Penetration Testing', 'Metasploit', 'Burp Suite', 'OWASP Top 10', 'SQLi & XSS Testing', 'CTF Challenges'] },
-  { title: 'Monitoring & Defense', skills: ['Aircrack-ng', 'Incident Response', 'Log Analysis'] },
-  { title: 'AI & Automation', skills: ['Local LLM Deployment', 'PyTorch', 'LangChain', 'Gemini API', 'Security Automation'] },
-]
-
-// Short labels for the 3D protocol ring (long skill names don't fit in 3D text).
-const RING_SKILLS = [
-  'PYTHON',
-  'KALI LINUX',
-  'WIRESHARK',
-  'NMAP',
-  'BURP SUITE',
-  'METASPLOIT',
-  'PYTORCH',
-  'OWASP',
-]
-
-export function ringSkills(count = 8): string[] {
-  return RING_SKILLS.slice(0, count)
-}
-
-export const education = {
-  degree: 'B.Tech · Computer Science & Engineering (Cyber Security)',
-  school: 'Noida Institute of Engineering and Technology, Greater Noida, UP',
-  period: '2024 · pursuing',
-  cgpa: '8.4',
-}
-
-export const certifications = [
-  { name: 'Security Analyst Job Simulation', issuer: 'Tata · Forage', year: 'Jul 2025' },
-  { name: 'Python Programming Internship', issuer: 'CodSoft', year: 'Jul 2025' },
-  { name: 'Introduction to Cybersecurity', issuer: 'Cisco', year: 'Feb 2026' },
-]
-
-export const PAGE_SECTIONS = [
-  { id: 'hero', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'work-1', label: 'Case file 01' },
-  { id: 'work-2', label: 'Case file 02' },
-  { id: 'work-3', label: 'Case file 03' },
-  { id: 'skills', label: 'Protocols' },
-  { id: 'contact', label: 'Contact' },
-]
-
-export const NAV_LINKS = [
-  { label: 'About me', target: '#about' },
-  { label: 'Projects', target: '#projects' },
-  { label: 'CTF write-ups', target: '#ctf' },
-  { label: 'Achievements', target: '#achievements' },
-  { label: 'Skills', target: '#skills' },
-  { label: 'Certifications', target: '#certifications' },
-  { label: 'Contact me', target: '#contact' },
-]
-
 // Practice platforms showcased in the Achievements section.
 export const platforms = [
   {
@@ -301,4 +169,27 @@ export const platforms = [
     glyph: 'code',
     desc: 'Web-security academy labs — SQL injection, XSS, access control and request-smuggling exercises, solved through Burp Suite.',
   },
+]
+
+export const education = {
+  degree: 'B.Tech · Computer Science & Engineering (Cyber Security)',
+  school: 'Noida Institute of Engineering and Technology, Greater Noida, UP',
+  period: '2024 · pursuing',
+  cgpa: '8.4',
+}
+
+export const certifications = [
+  { name: 'Security Analyst Job Simulation', issuer: 'Tata · Forage', year: 'Jul 2025' },
+  { name: 'Python Programming Internship', issuer: 'CodSoft', year: 'Jul 2025' },
+  { name: 'Introduction to Cybersecurity', issuer: 'Cisco', year: 'Feb 2026' },
+]
+
+export const NAV_LINKS = [
+  { label: 'About me', target: '#about' },
+  { label: 'Projects', target: '#projects' },
+  { label: 'CTF write-ups', target: '#ctf' },
+  { label: 'Achievements', target: '#achievements' },
+  { label: 'Skills', target: '#skills' },
+  { label: 'Certifications', target: '#certifications' },
+  { label: 'Contact me', target: '#contact' },
 ]

@@ -1,4 +1,4 @@
-import { certifications, education, profile, projects, skillGroups } from '../data/portfolio'
+import { certifications, profile, projects, skillCategories } from '../data/portfolio'
 
 // Chat brain, shared by the floating widget and the embedded contact chat.
 // askAI tries the server's Gemini proxy (any question, real AI) and falls
@@ -7,23 +7,17 @@ import { certifications, education, profile, projects, skillGroups } from '../da
 
 type Msg = { from: 'bot' | 'user'; text: string }
 
+const RESUME_URL = '/Sidhanshi-Srivastava-Resume.pdf'
+
 export function localReplyFor(raw: string): string {
   const t = raw.toLowerCase()
 
-  if (/\b(hi+|hello|hey|namaste|salam|hola)\b/.test(t)) {
-    return `Hey! Tap a topic below, or ask things like "what tech does she use?", "tell me about the wi-fi detector", "is she open to internships?"`
-  }
-  if (/\b(thank|thanks|shukriya|dhanyavad|great|awesome|nice)/.test(t)) {
-    return 'Anytime! If something here sparks an idea, the email button in the contact section is the fastest way to say hi.'
-  }
-  if (/\b(resume|cv)\b/.test(t)) {
-    return `There's no resume file hosted here — email ${profile.email} and one will come right over.`
+  // Specific topics first — greetings and politeness must never shadow them.
+  if (/\b(resume|cv)/.test(t)) {
+    return `The resume is hosted right on this site — it opens here: ${RESUME_URL} (also linked via the document icon in the hero bar).`
   }
   if (/\b(contact|email|mail|reach|hire|intern|connect|touch|social|linkedin|github|available)/.test(t)) {
     return `Fastest route: ${profile.email}\n\nGitHub: ${profile.socials[0].url}\nLinkedIn: ${profile.socials[1].url}\n\nShe's currently open to cybersecurity internships — SOC, security research, or anything where breaking things is the job.`
-  }
-  if (/\b(education|college|degree|cgpa|niet|study|student|btech|b\.tech|padhai)/.test(t)) {
-    return `${education.degree}\n${education.school}\n${education.period} · CGPA ${education.cgpa}`
   }
   if (/\b(cert|certification|training|course|forage|cisco|codsoft)/.test(t)) {
     return `Certifications on record:\n\n${certifications
@@ -32,26 +26,34 @@ export function localReplyFor(raw: string): string {
   }
   if (/\b(wi-?fi|wifi|rogue|detect|evil twin)/.test(t)) {
     const p = projects[0]
-    return `${p.index} · ${p.title} (${p.tagline})\n\n${p.description}\n\nLive and source links sit on the case file card.`
+    return `${p.index} · ${p.title} (${p.tagline})\n\n${p.description}\n\nLive and source links sit on the project card.`
   }
   if (/\b(crypto|encrypt|fastapi)/.test(t)) {
     const p = projects[1]
-    return `${p.index} · ${p.title} (${p.tagline})\n\n${p.description}\n\nLive and source links sit on the case file card.`
+    return `${p.index} · ${p.title} (${p.tagline})\n\n${p.description}\n\nLive and source links sit on the project card.`
   }
   if (/\b(event|manager|php|mysql)/.test(t)) {
     const p = projects[2]
-    return `${p.index} · ${p.title} (${p.tagline})\n\n${p.description}\n\nLive and source links sit on the case file card.`
+    return `${p.index} · ${p.title} (${p.tagline})\n\n${p.description}\n\nLive and source links sit on the project card.`
   }
-  if (/\b(skill|tech|stack|technolog|language|tools|know)/.test(t)) {
-    return `The full stack:\n\n${skillGroups.map((g) => `${g.title}: ${g.skills.join(', ')}`).join('\n')}`
+  if (/\b(skill|tech|stack|technolog|language|tool)/.test(t)) {
+    return `The full stack:\n\n${skillCategories
+      .map((c) => `${c.title}: ${c.skills.join(', ')}`)
+      .join('\n')}`
   }
   if (/\b(project|case|work|build|portfolio)/.test(t)) {
-    return `Three case files live on the site:\n\n${projects
+    return `Three projects live on the site:\n\n${projects
       .map((p) => `${p.index} · ${p.title} — ${p.tagline}`)
       .join('\n')}\n\nAsk about any one by name, like "wi-fi detector".`
   }
-  if (/\b(who|about|intro|sidhanshi|yourself|kaun|location|where|from|noida)/.test(t)) {
+  if (/\b(who|about|intro|sidhanshi|yourself|kaun|location|where|noida)/.test(t)) {
     return `${profile.name} — ${profile.role}, based in ${profile.location}.\n\n${profile.availability}`
+  }
+  if (/\b(hi+|hello|hey|namaste|salam|hola)\b/.test(t)) {
+    return `Hey! Tap a topic below, or ask things like "what tech does she use?", "tell me about the wi-fi detector", "is she open to internships?"`
+  }
+  if (/\b(thank|thanks|shukriya|dhanyavad)\b/.test(t)) {
+    return 'Anytime! If something here sparks an idea, the email button in the contact section is the fastest way to say hi.'
   }
   return `That one's outside my lane — I'm sharpest on skills, projects, certifications, education and contact. Try the buttons below, or ask "tell me about the wi-fi detector".`
 }
