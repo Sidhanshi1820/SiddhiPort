@@ -59,23 +59,28 @@ const SYSTEM_PROMPT = `You are the assistant embedded in Sidhanshi Srivastava's 
 Style: friendly and concise — short plain-text lines, under 120 words unless the visitor clearly wants detail. Portfolio questions: answer only from the facts above and say honestly when something isn't listed. Any other general question (study tips, tools, career advice, small talk): just answer helpfully like a knowledgeable friend. Never claim to be a human; you're the site's assistant.`
 
 // Per-IP rate limit. Behind Render's proxy all sockets share one address, so
-// attribute by the leftmost x-forwarded-for hop instead.
+// attribute by the forwarding hop. Render APPENDS to x-forwarded-for, so the
+// rightmost entry is the address it observed (the leftmost is client-supplied
+// and therefore spoofable).
 const buckets = new Map()
 const RATE_LIMIT = 20
 const RATE_WINDOW = 60_000
+let lastSweep = 0
 
 function clientIp(req) {
   const fwd = req.headers['x-forwarded-for']
   if (typeof fwd === 'string' && fwd.length) {
-    return fwd.split(',')[0].trim()
+    return fwd.split(',').at(-1).trim()
   }
   return req.socket.remoteAddress || 'unknown'
 }
 
 function limited(ip) {
   const now = Date.now()
-  // Sweep expired entries so the map can't grow forever.
-  if (buckets.size > 2000) {
+  // Sweep expired entries at most once a minute so the map can't grow forever
+  // without turning every request into a full scan.
+  if (buckets.size > 2000 && now - lastSweep > 60_000) {
+    lastSweep = now
     for (const [k, v] of buckets) {
       if (now > v.reset) buckets.delete(k)
     }
@@ -148,18 +153,26 @@ const server = http.createServer(async (req, res) => {
     let body = ''
     let oversized = false
     req.on('data', (chunk) => {
+      // Answer 413 on the FIRST oversize chunk and stop buffering — otherwise
+      // a huge upload is fully buffered before we ever reply.
+      if (oversized) return
       body += chunk
-      if (body.length > 4096) oversized = true
+      if (body.length > 4096) {
+        oversized = true
+        res.writeHead(413, { 'Content-Type': 'application/json' }).end(JSON.stringify({ error: 'too_large' }))
+        req.destroy()
+      }
     })
 
     req.on('end', async () => {
-      if (oversized) {
-        res.writeHead(413, { 'Content-Type': 'application/json' }).end(JSON.stringify({ error: 'too_large' }))
-        return
-      }
+      if (oversized) return // already answered 413
       // Stop the upstream call if the visitor closes the tab mid-request.
+      // Must listen on `res`, not `req` — a consumed request emits 'close'
+      // after every normal completion, which would abort every reply.
       const abort = new AbortController()
-      req.on('close', () => abort.abort())
+      res.on('close', () => {
+        if (!res.writableFinished) abort.abort()
+      })
       const timeout = setTimeout(() => abort.abort(), 15_000)
       try {
         const { message, history } = JSON.parse(body || '{}')
@@ -199,6 +212,12 @@ const server = http.createServer(async (req, res) => {
   }
   if (pathname.includes('..')) {
     res.writeHead(403, { 'Content-Type': 'text/plain' }).end()
+    return
+  }
+  // A null byte makes fs.readFile throw synchronously (not via the callback),
+  // which would escape as an unhandled rejection and kill the process.
+  if (pathname.includes('\0')) {
+    res.writeHead(400, { 'Content-Type': 'text/plain' }).end()
     return
   }
 

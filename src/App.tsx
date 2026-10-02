@@ -109,12 +109,16 @@ export default function App() {
     lenisRef.current?.start()
     window.scrollTo(0, 0)
     lenisRef.current?.scrollTo(0, { immediate: true })
-    gsap.to(scrollState, { intro: 1, duration: 2.4, ease: 'back.out(1.1)' })
-    gsap.fromTo(
-      '[data-hero]',
-      { y: 42, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, stagger: 0.09, ease: 'power3.out', delay: 0.25 },
-    )
+    // Own gsap.context so these tweens are reverted on unmount like the rest.
+    const ctx = gsap.context(() => {
+      gsap.to(scrollState, { intro: 1, duration: 2.4, ease: 'back.out(1.1)' })
+      gsap.fromTo(
+        '[data-hero]',
+        { y: 42, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.2, stagger: 0.09, ease: 'power3.out', delay: 0.25 },
+      )
+    })
+    return () => ctx.revert()
   }, [revealed])
 
   return (

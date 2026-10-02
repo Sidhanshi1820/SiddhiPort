@@ -1,4 +1,4 @@
-import { certifications, profile, projects, skillCategories } from '../data/portfolio'
+import { certifications, education, profile, projects, skillCategories } from '../data/portfolio'
 
 // Chat brain, shared by the floating widget and the embedded contact chat.
 // askAI tries the server's Gemini proxy (any question, real AI) and falls
@@ -49,7 +49,10 @@ export function localReplyFor(raw: string): string {
   if (/\b(who|about|intro|sidhanshi|yourself|kaun|location|where|noida)/.test(t)) {
     return `${profile.name} — ${profile.role}, based in ${profile.location}.\n\n${profile.availability}`
   }
-  if (/\b(hi+|hello|hey|namaste|salam|hola)\b/.test(t)) {
+  if (/\b(educat|degree|college|university|cgpa|niet|graduat|studied|college)/.test(t)) {
+    return `${education.degree}\n${education.school}\n${education.period} · CGPA ${education.cgpa}`
+  }
+  if (/\b(hi|hii|hello|hey|namaste|salam|hola)\b/.test(t)) {
     return `Hey! Tap a topic below, or ask things like "what tech does she use?", "tell me about the wi-fi detector", "is she open to internships?"`
   }
   if (/\b(thank|thanks|shukriya|dhanyavad)\b/.test(t)) {

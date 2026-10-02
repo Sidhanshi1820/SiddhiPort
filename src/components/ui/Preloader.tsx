@@ -16,9 +16,14 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
   const fillRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const onRevealRef = useRef(onReveal)
-  onRevealRef.current = onReveal
+  const timelineRef = useRef<gsap.core.Timeline | null>(null)
   const [display, setDisplay] = useState(0)
   const [finished, setFinished] = useState(false)
+
+  // Keep the callback fresh without mutating a ref during render.
+  useEffect(() => {
+    onRevealRef.current = onReveal
+  }, [onReveal])
 
   useEffect(() => {
     const startedAt = performance.now()
@@ -29,7 +34,8 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
 
     const finish = () => {
       setDisplay(100)
-      gsap
+      timelineRef.current?.kill()
+      timelineRef.current = gsap
         .timeline({ onComplete: () => setFinished(true) })
         .to(fillRef.current, { scaleX: 1, duration: 0.35, ease: 'power2.out' }, 0)
         .to(contentRef.current, { y: -26, opacity: 0, duration: 0.5, ease: 'power2.in' }, 0.3)
@@ -50,7 +56,11 @@ export function Preloader({ onReveal }: { onReveal: () => void }) {
     }
 
     rafId = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(rafId)
+    return () => {
+      cancelAnimationFrame(rafId)
+      // Otherwise onReveal/onComplete can fire after unmount.
+      timelineRef.current?.kill()
+    }
   }, [])
 
   if (finished) return null

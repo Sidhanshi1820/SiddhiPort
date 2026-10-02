@@ -72,7 +72,7 @@ export function LegalPage({ eyebrow, title, updated, children }: LegalPageProps)
           <h1 className="lg-title">{title}</h1>
           <p className="lg-updated">Last updated: {updated}</p>
           {children}
-          <a className="lg-back" href="./">
+          <a className="lg-back" href="/">
             Back to portfolio
           </a>
         </main>

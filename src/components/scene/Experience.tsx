@@ -7,8 +7,7 @@ import { SceneObjects } from './SceneObjects'
 
 /**
  * The fixed WebGL stage behind the scrolling DOM. Kept intentionally simple:
- * fog, two accents of light, a glowing hero core, and one floating shape per
- * section that the camera drifts past on the way down the page.
+ * fog, warm accent lights, and one floating tool model per section that the camera drifts past on the way down the page.
  */
 export function Experience() {
   return (

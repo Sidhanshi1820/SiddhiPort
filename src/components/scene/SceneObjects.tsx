@@ -36,7 +36,7 @@ const STATIONS: Station[] = [
   { position: [-3.8, 1.1, -66], color: '#d4b57a', kind: 'wifi', scale: 1.15, phase: 2.0, spin: 0.36 },
   { position: [3.8, 1.2, -78], color: '#e0c48a', kind: 'network', scale: 1.0, phase: 2.9, spin: 0.3 },
   { position: [-3.8, 1.1, -90], color: '#e0c48a', kind: 'lens', scale: 1.05, phase: 3.7, spin: 0.3 },
-  { position: [-3.6, 1.15, -102], color: '#d4b57a', kind: 'cert', scale: 0.9, phase: 4.1, spin: 0.28 },
+  { position: [3.8, 1.15, -102], color: '#d4b57a', kind: 'cert', scale: 0.9, phase: 4.1, spin: 0.28 },
   // Contact camera dwells at z=-118; keep the key ~10u ahead of it so the
   // ring isn't clipped by the near plane.
   { position: [1.4, 1.0, -128], color: '#ffd23f', kind: 'key', scale: 1.0, phase: 4.6, spin: 0.3 },

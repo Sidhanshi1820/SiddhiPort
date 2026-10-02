@@ -7,11 +7,19 @@ export function Nav() {
       <button className="nav-logo" onClick={() => scrollToSection('#hero')} aria-label="Back to top">
         <span className="nav-mono">SS</span>
       </button>
+      {/* Real anchors so destinations stay middle-clickable and copy-linkable. */}
       <nav className="nav-links" aria-label="Primary">
         {NAV_LINKS.map((l) => (
-          <button key={l.target} onClick={() => scrollToSection(l.target)}>
+          <a
+            key={l.target}
+            href={l.target}
+            onClick={(e) => {
+              e.preventDefault()
+              scrollToSection(l.target)
+            }}
+          >
             {l.label}
-          </button>
+          </a>
         ))}
       </nav>
     </header>

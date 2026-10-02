@@ -140,7 +140,7 @@ export default function Overlay() {
               {profile.firstName} <span className="hero-gold">{profile.lastName}</span>
             </h1>
             <p className="hero-sub" data-hero>
-              Available for internships, security research, and collaborative projects.
+              {profile.availability}
             </p>
             <div className="hero-actions" data-hero>
               <button className="btn btn-solid" onClick={() => scrollToSection('#projects')}>
@@ -162,9 +162,14 @@ export default function Overlay() {
               <Icon d={ICONS.mail} /> {profile.email}
             </a>
           </div>
-          <div className="info-socials" aria-label="Social platforms">
+          <div className="info-socials" role="group" aria-label="Social platforms">
             {profile.socialIcons.map((s) => (
-              <a key={s.label} href={s.url} target="_blank" rel="noreferrer" aria-label={s.label}>
+              <a
+                key={s.label}
+                href={s.url}
+                {...(s.url.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noreferrer' })}
+                aria-label={s.label}
+              >
                 <SocialGlyph kind={s.icon} />
               </a>
             ))}
@@ -187,9 +192,9 @@ export default function Overlay() {
           <div className="about-grid">
             <div className="about-copy">
               <p className="body-text" data-reveal>
-                I'm {profile.name}, a B.Tech CSE (Cyber Security) student at NIET, Greater Noida —
-                {education.period.replace(' · pursuing', '')} batch, CGPA {education.cgpa}. My work
-                sits at the intersection of offensive curiosity and defensive discipline.
+                I'm {profile.name}, a B.Tech CSE (Cyber Security) student at NIET, Greater Noida
+                — {education.period.split(' ')[0]} cohort, CGPA {education.cgpa}. My work sits at
+                the intersection of offensive curiosity and defensive discipline.
               </p>
               <p className="body-text" data-reveal>
                 Recent builds include an AI-based rogue Wi-Fi detector, an automated cryptographic
@@ -368,10 +373,13 @@ export default function Overlay() {
               <button
                 className={`btn btn-outline copy-btn${copied ? ' copied' : ''}`}
                 onClick={copyEmail}
-                aria-live="polite"
               >
                 {copied ? 'Copied ✓' : 'Copy'}
               </button>
+              {/* Status lives outside the mutating button so AT announces once. */}
+              <span className="sr-only" role="status">
+                {copied ? 'Email address copied to clipboard' : ''}
+              </span>
             </div>
           </div>
           <form className="contact-form" data-reveal onSubmit={submitContact}>
@@ -420,9 +428,16 @@ export default function Overlay() {
         <span>© {YEAR} {profile.name}</span>
         <nav className="footer-nav" aria-label="Footer">
           {NAV_LINKS.map((l) => (
-            <button key={l.target} onClick={() => scrollToSection(l.target)}>
+            <a
+              key={l.target}
+              href={l.target}
+              onClick={(e) => {
+                e.preventDefault()
+                scrollToSection(l.target)
+              }}
+            >
               {l.label}
-            </button>
+            </a>
           ))}
           <a href="/privacy">Privacy</a>
           <a href="/terms">Terms</a>

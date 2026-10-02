@@ -2,11 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { profile } from '../../data/portfolio'
 import { askAI } from '../../lib/chat'
 
-// Portfolio assistant chat. Two mounts share this component:
-//  - ChatWidget: the floating bubble available on every page
-//  - ChatPanel variant="card": embedded in the Get-in-touch section
-// Replies come from the server's Gemini proxy when a key is configured, with
-// the local portfolio matcher as an always-works fallback (see lib/chat.ts).
+// Portfolio assistant chat: one floating bubble (ChatWidget) that mounts the
+// ChatPanel. Replies come from the server's Gemini proxy when a key is
+// configured, with the local portfolio matcher as an always-works fallback
+// (see lib/chat.ts).
 
 type Msg = { from: 'bot' | 'user'; text: string }
 
@@ -52,12 +51,6 @@ const CHAT_STYLES = `
     height: min(540px, 72vh);
     height: min(540px, 72svh);
     z-index: 56;
-  }
-  .cw-panel-card {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: var(--surface);
   }
   .cw-head {
     display: flex;
@@ -169,6 +162,7 @@ export function ChatPanel({ variant = 'float', id }: { variant?: 'float' | 'card
   const [draft, setDraft] = useState('')
   const logRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const mountedRef = useRef(true)
 
   // Keep the newest message in view.
   useEffect(() => {
@@ -178,6 +172,9 @@ export function ChatPanel({ variant = 'float', id }: { variant?: 'float' | 'card
   // Focus the input when the panel first appears.
   useEffect(() => {
     inputRef.current?.focus()
+    return () => {
+      mountedRef.current = false
+    }
   }, [])
 
   const send = async (text: string) => {
@@ -188,13 +185,21 @@ export function ChatPanel({ variant = 'float', id }: { variant?: 'float' | 'card
     setDraft('')
     setTyping(true)
     const reply = await askAI(clean, base)
+    // The panel can unmount (closed) while the AI call is in flight.
+    if (!mountedRef.current) return
     setMessages([...base, { from: 'user', text: clean }, { from: 'bot', text: reply }])
     setTyping(false)
     inputRef.current?.focus()
   }
 
   return (
-    <div className={`cw-panel cw-panel-${variant}`} id={id} role="dialog" aria-label="Portfolio chat">
+    <div
+      className={`cw-panel cw-panel-${variant}`}
+      id={id}
+      role="dialog"
+      aria-modal="false"
+      aria-label="Portfolio chat"
+    >
       <div className="cw-head">
         <span className="cw-dot" aria-hidden="true" />
         <span className="cw-title">Portfolio Assistant</span>
